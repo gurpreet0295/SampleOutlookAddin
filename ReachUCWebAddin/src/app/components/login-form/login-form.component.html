@@ -1,0 +1,35 @@
+<div class="ms-Grid ms-Grid-padded">
+  <div class="ms-Grid-row">
+    <div class="ms-Grid-col ms-u-sm12">
+      <img class="rw-logo" src="https://localhost:442/outlook-addin/assets/logo.png" />
+    </div>
+  </div>
+
+  <form (ngSubmit)="onSubmit()" id="login_form">
+    <div class="ms-Grid-row">
+      <div class="ms-Grid-row">
+        <div class="ms-Grid-col ms-u-md12">
+          <div class="ms-TextField">
+            <input class="ms-TextField-field" name="email" placeholder="Username" type="text" [(ngModel)] ="userName">
+          </div>
+        </div>
+
+        <div class="ms-Grid-col ms-u-md12">
+          <div class="ms-TextField">
+            <input class="ms-TextField-field" name ="password" placeholder="Password" type="password" [(ngModel)] ="password">
+          </div>
+        </div>
+      </div>
+
+      <div class="ms-Grid-row">
+        <div class="ms-Grid-col ms-u-md12 text-align-center">
+          <button class="ms-Button ms-Button--primary" type="submit">
+            <span class="ms-Button-label-new">{{loginButtonText}}</span>
+            <span class="ms-Button-description">Login to ReachUC</span>
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </form>
+</div>
