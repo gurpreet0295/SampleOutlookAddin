@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { DialerService } from '../../services/dialer.service';
 import { Http } from '@angular/http';
+import { Router } from '@angular/router';
 
 
 declare var $: any;
@@ -13,17 +14,16 @@ declare var $: any;
 export class DialerPadComponent implements OnInit {
 
   phoneNumber: string;
-  dialerService: DialerService
   callResponse: string;
+  
 
-  constructor(private http: Http) {
-    this.dialerService = new DialerService(http);
+  constructor(private dialerService: DialerService, private http: Http, private route: Router) {
     this.phoneNumber = "";
     this.callResponse = "";
   }
 
   ngOnInit() {
-    //debugger;
+    debugger;
       $('.num').click(function () {
         var num = $(this);
         var text = $.trim(num.find('.txt').clone().children().remove().end().text());

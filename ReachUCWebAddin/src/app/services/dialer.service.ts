@@ -11,7 +11,7 @@ import { Common } from "./common.service";
 @Injectable()
 export class DialerService {
 
-  apiService: SkySwitchAPIService;
+  
   token: string;
   localStorage: Storage;
   userName: string;
@@ -19,13 +19,9 @@ export class DialerService {
   domain: string;
   user: string;
   areaCode: string;
-  loginService: LoginService;
-  commonService: Common;
-  route: Router;
+  
 
-  constructor(private http: Http) {
-    this.apiService = new SkySwitchAPIService(http);
-    this.commonService = new Common;
+  constructor(private apiService: SkySwitchAPIService, private commonService: Common, private http: Http, private route: Router) {
     this.localStorage = window.localStorage;
     this.token = this.commonService.skyToken;
     this.userName = this.commonService.userName;
@@ -61,7 +57,7 @@ export class DialerService {
                   this.commonService.storeUserDomain(this.domain, this.user, this.areaCode);
 
                   //making call
-                  phoneNumber.replace(" ", "");
+                  phoneNumber.replace(" ", String.Empty);
                   let callId = Guid.create().toString().replace('-', String.Empty);
                   let parts = this.user.split('@');
                   this.call(this.userName, callId, phoneNumber, this.domain, parts[0], access_token)
@@ -73,8 +69,6 @@ export class DialerService {
                       console.log(error);
                       callResponse = "Not able to make call."
                     });
-
-                  //
                 }
                 else {
                   console.log("No domain");

@@ -13,6 +13,7 @@ export class Common {
   localStorage: Storage;
 
   constructor() {
+    debugger;
     this.localStorage = window.localStorage;
     this.userName = localStorage.getItem('userName');
     this.password = localStorage.getItem('password');
@@ -23,14 +24,20 @@ export class Common {
   }
 
   storeLoggedInUserData(userName: string, password: string, skyToken: string) {
+    this.userName = userName;
     this.localStorage.setItem('userName', userName);
+    this.password = password;
     this.localStorage.setItem('password', password);
+    this.skyToken = skyToken;
     this.localStorage.setItem('skyToken', skyToken);
   }
 
   storeUserDomain(domain: string, user: string, areaCode: string) {
+    this.domain = domain;
     this.localStorage.setItem('domain', domain);
+    this.user = user;
     this.localStorage.setItem('user', user);
+    this.areaCode = areaCode;
     this.localStorage.setItem('areaCode', areaCode);
   }
 

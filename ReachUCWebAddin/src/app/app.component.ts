@@ -16,37 +16,30 @@ export class AppComponent {
   private localStorage: Storage;
   private userName: string;
   private password: string;
-  private apiService: SkySwitchAPIService;
-  private loginService: LoginService;
   private isLoggedIn: boolean;
-  private commonService: Common;
 
-  constructor(private http: Http, private router: Router) {
-    this.apiService = new SkySwitchAPIService(http);
-    this.loginService = new LoginService(http, router);
-    this.commonService = new Common();
+  constructor(private loginService: LoginService, private apiService: SkySwitchAPIService, private commonService: Common, private http: Http, private router: Router) {
     this.localStorage = window.localStorage;
     this.userName = this.commonService.userName;
     this.password = this.commonService.password;
-    this.checkIsUserLoggedIn();
   }
 
   ngOnInit() {
-   
+    this.checkIsUserLoggedIn();
   }
 
   checkIsUserLoggedIn() {
-    // debugger;
-    // this.localStorage.setItem('skyToken', String.Empty);
-    // this.localStorage.setItem('user', String.Empty);
-    // this.localStorage.setItem('domain', String.Empty);
+    debugger;
+    //this.localStorage.setItem('skyToken', String.Empty);
+    //this.localStorage.setItem('user', String.Empty);
+    //this.localStorage.setItem('domain', String.Empty);
 
     if (!String.IsNullOrWhiteSpace(this.localStorage.getItem('userName')) && !String.IsNullOrWhiteSpace(this.localStorage.getItem('password'))) {
 
       this.apiService.getToken(this.userName, this.password, "oauth2/token")
         .map(response => response.json())
         .subscribe(({ access_token, refresh_token, expires_in }) => {
-          //debugger;
+          debugger;
           this.commonService.storeLoggedInUserData(this.userName, this.password, access_token);
           if (!String.IsNullOrWhiteSpace(access_token)) {
 
@@ -65,7 +58,7 @@ export class AppComponent {
                 else {
                   console.log("No domain");
                   this.isLoggedIn = false;
-                  this.router.navigateByUrl('');
+                  this.router.navigateByUrl('login');
                 }
               },
               (error) => {
@@ -76,6 +69,7 @@ export class AppComponent {
           else {
             console.log("Token is null");
             this.isLoggedIn = false;
+            this.router.navigateByUrl('login');
           }
         },
         (error) => {
@@ -87,6 +81,7 @@ export class AppComponent {
     }
     else {
       this.isLoggedIn = false;
+      this.router.navigateByUrl('login');
     }
   }
 }

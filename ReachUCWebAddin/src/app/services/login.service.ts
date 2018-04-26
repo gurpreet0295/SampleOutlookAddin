@@ -11,12 +11,7 @@ import { Router } from "@angular/router";
 @Injectable()
 export class LoginService {
 
-  apiResponse: SkySwitchAPIService;
-  commonService: Common;
-
-  constructor(private http: Http, private route: Router) {
-    this.apiResponse = new SkySwitchAPIService(this.http);
-    this.commonService = new Common();
+  constructor(private apiResponse: SkySwitchAPIService, private commonService: Common, private http: Http, private route: Router) {
   }
 
   loginToReachUC(username: string, password: string) {

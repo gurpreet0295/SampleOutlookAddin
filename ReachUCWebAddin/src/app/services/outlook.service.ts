@@ -13,12 +13,10 @@ export class OutlookService {
       numbers = currentMail.getEntitiesByType(Office.MailboxEnums.EntityType.PhoneNumber);
       //let numbers = currentMail.getRegExMatches();
       console.log(numbers);
-      //resolve(numbers);
     }
     catch (error) {
       console.log("in office service exception");
       console.log(error);
-      ///reject(error);
     }
     return numbers;
   }

@@ -13,9 +13,10 @@ import { APP_BASE_HREF, LocationStrategy, HashLocationStrategy } from '@angular/
 import { OutlookService } from './services/outlook.service';
 import { DialerPadComponent } from './components/dialer-pad/dialer-pad.component';
 import { Common } from './services/common.service';
+import { DialerService } from './services/dialer.service';
 
 const appRoutes: Routes = [
-  { path: '', component: LoginFormComponent },
+  { path: 'login', component: LoginFormComponent },
   { path: 'home', component: HomePageComponent },
   { path: 'dialer', component: DialerPadComponent }
 ];
@@ -33,7 +34,7 @@ const appRoutes: Routes = [
     HttpModule,
     RouterModule.forRoot(appRoutes)
   ],
-  providers: [LoginService, SkySwitchAPIService, OutlookService, DialerPadComponent, Common, { provide: LocationStrategy, useClass: HashLocationStrategy }],
+  providers: [LoginService, SkySwitchAPIService, OutlookService, DialerService, Common, { provide: LocationStrategy, useClass: HashLocationStrategy }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
