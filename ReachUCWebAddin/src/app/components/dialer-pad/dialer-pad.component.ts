@@ -23,7 +23,7 @@ export class DialerPadComponent implements OnInit {
   }
 
   ngOnInit() {
-    debugger;
+    //debugger;
       $('.num').click(function () {
         var num = $(this);
         var text = $.trim(num.find('.txt').clone().children().remove().end().text());

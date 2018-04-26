@@ -36,17 +36,17 @@ export class AppComponent {
   }
 
   checkIsUserLoggedIn() {
-    debugger;
-    this.localStorage.setItem('skyToken', String.Empty);
-    this.localStorage.setItem('user', String.Empty);
-    this.localStorage.setItem('domain', String.Empty);
+    // debugger;
+    // this.localStorage.setItem('skyToken', String.Empty);
+    // this.localStorage.setItem('user', String.Empty);
+    // this.localStorage.setItem('domain', String.Empty);
 
     if (!String.IsNullOrWhiteSpace(this.localStorage.getItem('userName')) && !String.IsNullOrWhiteSpace(this.localStorage.getItem('password'))) {
 
       this.apiService.getToken(this.userName, this.password, "oauth2/token")
         .map(response => response.json())
         .subscribe(({ access_token, refresh_token, expires_in }) => {
-          debugger;
+          //debugger;
           this.commonService.storeLoggedInUserData(this.userName, this.password, access_token);
           if (!String.IsNullOrWhiteSpace(access_token)) {
 

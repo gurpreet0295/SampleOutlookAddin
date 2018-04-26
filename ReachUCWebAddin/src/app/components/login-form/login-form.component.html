@@ -1,40 +1,21 @@
-<div class="ms-Grid ms-Grid-padded">
-  <div class="ms-Grid-row">
-    <div class="ms-Grid-col ms-u-sm12">
-      <img class="rw-logo" src="https://localhost:442/outlook-addin/assets/logo.png" />
+<div class="login-form">
+    <div class="login-form-inner">
+        <img class="" src="http://localhost:4200/assets/logo.png" />
+        <form (ngSubmit)="onSubmit()" id="login_form">
+            <div class="form-group">
+                <input class="form-control" name="email" placeholder="Username" type="text" [(ngModel)]="userName">
+                <div class="error-mgs">Please enter correct email</div>
+            </div>
+            <div class="form-group">
+                <input class="form-control" name="password" placeholder="Password" type="password" [(ngModel)]="password">
+                <div class="error-mgs">Please enter correct password</div>
+            </div>
+            <div class="form-group">
+                <button class="btn btn-primary btn-block" type="submit">
+                    <span class="ms-Button-label-new">{{loginButtonText}}</span>
+                    <span class="ms-Button-description">Login to ReachUC</span>
+                </button>
+            </div>
+        </form>
     </div>
-  </div>
-
-  <form (ngSubmit)="onSubmit()" id="login_form">
-    <div class="ms-Grid-row">
-      <div class="ms-Grid-row">
-        <div class="ms-Grid-col ms-u-md12">
-          <div class="ms-TextField">
-            <input class="ms-TextField-field" name="email" placeholder="Username" type="text" [(ngModel)]="userName">
-          </div>
-        </div>
-
-        <div class="ms-Grid-col ms-u-md12">
-          <div class="ms-TextField">
-            <input class="ms-TextField-field" name="password" placeholder="Password" type="password" [(ngModel)]="password">
-          </div>
-        </div>
-      </div>
-
-      <div class="ms-Grid-row">
-        <div class="ms-Grid-col ms-u-md12 text-align-center">
-          <button class="ms-Button ms-Button--primary" type="submit">
-            <span class="ms-Button-label-new">{{loginButtonText}}</span>
-            <span class="ms-Button-description">Login to ReachUC</span>
-          </button>
-        </div>
-      </div>
-
-    </div>
-  </form>
-
-  <br />
-  <div class="ms-Grid-col ms-u-md12">
-      {{ loginMessage }}
-  </div>
 </div>

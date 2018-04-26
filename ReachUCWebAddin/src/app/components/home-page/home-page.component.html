@@ -1,23 +1,65 @@
-<p>
-  home-page works!
-</p>
-<br />
-{{ domain }}
-<br />
-{{ user }}
-<br />
-{{ areaCode }}
-<br />
-<div>
-  <ol>
-    <li *ngFor="let num of phoneNumbers">
-      {{num.originalPhoneString}}
-    </li>
-  </ol>
-</div>
+<div class="login-form">
+    <div class="login-form-inner homepage">
+        <div class="show-list">
+            <ul class="list-group">
+                <li class="list-group-item active">User/Domain</li>
+                <li class="list-group-item">
+                    <p>Domain</p>
+                    {{ domain }}
+                </li>
+                <li class="list-group-item">
+                    <p>User</p>
+                    {{ user }}
+                </li>
+                <li class="list-group-item">
+                    <p>Area</p>
+                    {{ areaCode }}
+                </li>
+            </ul>
+        </div>
 
-<br />
-<button class="ms-Button ms-Button--primary" (click)="onClick()" type="button">
-  <span class="ms-Button-label-new">Dialer</span>
-  <span class="ms-Button-description">Login to ReachUC</span>
-</button>
+        <div class="show-list">
+            <ul class="list-group">
+                <li class="list-group-item active"> Properties</li>
+                <li class="list-group-item">
+                    <div class="row">
+                        <div class="col">
+                            <label>Country Code</label>
+                        </div>
+                        <div class="col">
+                            <input class="form-control" name="contry code" placeholder="Contry Code">
+                        </div>
+                    </div>
+                </li>
+                <li class="list-group-item">
+                    <div class="row">
+                        <div class="col">
+                            <label>Int. Prefix</label>
+                        </div>
+                        <div class="col">
+                            <input class="form-control" name="Int. Prefix" placeholder="Int. Prefix">
+                        </div>
+                    </div>
+                </li>
+                <li class="list-group-item">
+                    <div class="row">
+                        <div class="col">
+                            <label>Dial Length</label>
+                        </div>
+                        <div class="col">
+                            <input class="form-control" name="Dial Length" placeholder="11">
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+        <div class="form-group">
+            <button class="btn btn-primary btn-block" (click)="onClick()" type="button">
+                <span class="ms-Button-label-new">Dialer</span>
+                <span class="ms-Button-description">Login to ReachUC</span>
+            </button>
+        </div>
+
+    </div>
+</div>

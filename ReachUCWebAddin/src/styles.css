@@ -1,1 +1,90 @@
 /* You can add global styles to this file, and also import other style files */
+
+.login-form {
+    max-width: 400px;
+    margin: auto;
+    padding: 10px;
+}
+
+.login-form-inner {
+    padding: 35px 25px 20px;
+    margin: 30px auto;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+    text-align: center;
+}
+
+.login-form-inner.homepage {
+    padding: 0px;
+    box-shadow: none;
+    -webkit-box-shadow: none;
+}
+
+.signin-text {
+    padding: 10px 10px 15px;
+    background-color: #359bb4;
+}
+
+.signin-text p {
+    font-size: 24px;
+    line-height: 24px;
+    color: #fff;
+    margin: 0px;
+}
+
+.login-form img {
+    width: 100px;
+    margin-bottom: 30px;
+}
+
+.form-control {
+    background-color: #fff;
+    border-radius: 0px;
+    -webkit-border-radius: 0px;
+    height: 44px;
+    padding: 9px 12px;
+}
+
+.form-control:focus {
+    box-shadow: none;
+    -webki-box-shadow: none;
+}
+
+.btn.focus,
+.btn:focus {
+    box-shadow: none;
+    -webkit-box-shadow: none;
+}
+
+.btn-primary:not(:disabled):not(.disabled).active:focus,
+.btn-primary:not(:disabled):not(.disabled):active:focus,
+.show>.btn-primary.dropdown-toggle:focus {
+    box-shadow: none;
+    -webkit-box-shadow: none;
+}
+
+.btn-primary:not(:disabled):not(.disabled).active,
+.btn-primary:not(:disabled):not(.disabled):active,
+.show>.btn-primary.dropdown-toggle {
+    background-color: #359bb4;
+    box-shadow: none;
+    -webkit-box-shadow: none;
+    border-color: #359bb4;
+}
+
+.btn.btn-primary {
+    background-color: #359bb4;
+    border-radius: 0px;
+    -webkit-border-radius: 0px;
+    border-color: #359bb4;
+    padding: 9px 12px;
+}
+
+.btn.btn-primary:hover {
+    background-color: #19748a;
+    border-color: #19748a;
+}
+
+.error-mgs {
+    text-align: left;
+    color: #f00;
+}

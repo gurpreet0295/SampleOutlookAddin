@@ -27,34 +27,28 @@ export class HomePageComponent implements OnInit {
 
     this.phoneNumbers = ["test", "test"];
     Array.isArray(this.phoneNumbers) ? console.log("array") : console.log("not array");//this.phoneNumbers = numbers;
-    //this.phoneNumbers = new Array<string>();
-    //var x = new Object();
-    //x = "Test";
-    //var y = new Object();
-    //y = "Tet";
-    //this.phoneNumbers.push(x);
-    //this.phoneNumbers.push(y);
   }
 
   ngOnInit() {
-    let numbers = this.outlookService.getPhoneNumbers();
-    console.log(this.phoneNumbers);
-    Array.isArray(this.phoneNumbers) ? console.log("array") : console.log("not array");//this.phoneNumbers = numbers;
-    numbers.forEach((num) => {
-      if (num.phoneString && !String.IsNullOrWhiteSpace(num.phoneString)) {
-        console.log("in phonestring " + num.phoneString)
-        this.phoneNumbers.push(num.phoneString);
-      }
-      else {
-        if (num.originalPhoneString && !String.IsNullOrWhiteSpace(num.originalPhoneString)) {
-          console.log("in original " + num.originalPhoneString)
-          this.phoneNumbers.push(num.originalPhoneString)
-        }
-      }
+    
+    // let numbers = this.outlookService.getPhoneNumbers();
+    // console.log(this.phoneNumbers);
+    // Array.isArray(this.phoneNumbers) ? console.log("array") : console.log("not array");//this.phoneNumbers = numbers;
+    // numbers.forEach((num) => {
+    //   if (num.phoneString && !String.IsNullOrWhiteSpace(num.phoneString)) {
+    //     console.log("in phonestring " + num.phoneString)
+    //     this.phoneNumbers.push(num.phoneString);
+    //   }
+    //   else {
+    //     if (num.originalPhoneString && !String.IsNullOrWhiteSpace(num.originalPhoneString)) {
+    //       console.log("in original " + num.originalPhoneString)
+    //       this.phoneNumbers.push(num.originalPhoneString)
+    //     }
+    //   }
 
-      console.log(this.phoneNumbers);
-    })
-    console.log(this.phoneNumbers);
+    //   console.log(this.phoneNumbers);
+    // })
+    // console.log(this.phoneNumbers);
   }
 
   onClick() {
