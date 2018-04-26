@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { DialerService } from '../../services/dialer.service';
 import { Http } from '@angular/http';
 
+
 declare var $: any;
 
 @Component({
@@ -12,10 +13,13 @@ declare var $: any;
 export class DialerPadComponent implements OnInit {
 
   phoneNumber: string;
-  dialerService: DialerService;
+  dialerService: DialerService
+  callResponse: string;
+
   constructor(private http: Http) {
     this.dialerService = new DialerService(http);
     this.phoneNumber = "";
+    this.callResponse = "";
   }
 
   ngOnInit() {
@@ -26,10 +30,11 @@ export class DialerPadComponent implements OnInit {
         var telNumber = $('#telNumber');
         $(telNumber).val(telNumber.val() + text);
       });
-
   }
 
   makeCall() {
-    this.dialerService.makeCall(this.phoneNumber);
+    var telNumber = $('#telNumber');
+    this.phoneNumber = $(telNumber).val();
+    this.dialerService.makeCall(this.phoneNumber, this.callResponse);
   }
 }

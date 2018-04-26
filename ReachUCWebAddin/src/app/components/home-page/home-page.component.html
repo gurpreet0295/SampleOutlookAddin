@@ -8,7 +8,14 @@
 <br />
 {{ areaCode }}
 <br />
-{{ numbers }}
+<div>
+  <ol>
+    <li *ngFor="let num of phoneNumbers">
+      {{num.originalPhoneString}}
+    </li>
+  </ol>
+</div>
+
 <br />
 <button class="ms-Button ms-Button--primary" (click)="onClick()" type="button">
   <span class="ms-Button-label-new">Dialer</span>

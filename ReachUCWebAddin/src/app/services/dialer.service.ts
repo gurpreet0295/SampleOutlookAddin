@@ -6,6 +6,7 @@ import { LoginService } from "./login.service";
 import { Router } from "@angular/router";
 import { Guid } from "guid-typescript";
 import { toASCII } from "punycode";
+import { Common } from "./common.service";
 
 @Injectable()
 export class DialerService {
@@ -19,21 +20,22 @@ export class DialerService {
   user: string;
   areaCode: string;
   loginService: LoginService;
+  commonService: Common;
   route: Router;
 
   constructor(private http: Http) {
     this.apiService = new SkySwitchAPIService(http);
-    this.loginService = new LoginService(http);
+    this.commonService = new Common;
     this.localStorage = window.localStorage;
-    this.token = localStorage.getItem('accessToken');
-    this.userName = localStorage.getItem('userName');
-    this.password = localStorage.getItem('password');
+    this.token = this.commonService.skyToken;
+    this.userName = this.commonService.userName;
+    this.password = this.commonService.password;
   }
 
-  makeCall(phoneNumber: string) {
+  makeCall(phoneNumber: string, callResponse: string) {
     debugger;
     if (!String.IsNullOrWhiteSpace(this.token)) {
-      this.localStorage.setItem('accessToken', String.Empty);
+      this.localStorage.setItem('skyToken', String.Empty);
       this.localStorage.setItem('user', String.Empty);
       this.localStorage.setItem('domain', String.Empty);
     }
@@ -44,7 +46,7 @@ export class DialerService {
         .subscribe(({ access_token, refresh_token, expires_in }) => {
 
           //move common data to new service
-          this.loginService.storeLoggedInUserData(this.userName, this.password, this.token);
+          this.commonService.storeLoggedInUserData(this.userName, this.password, this.token);
           if (!String.IsNullOrWhiteSpace(access_token)) {
 
             this.apiService.getUserDomain(this.userName, access_token)
@@ -56,24 +58,23 @@ export class DialerService {
                   this.areaCode = data[0].area_code;
                   console.log(this.areaCode);
                   //save user domain details.
-                  this.loginService.storeUserDomain(this.domain, this.user, this.areaCode);
+                  this.commonService.storeUserDomain(this.domain, this.user, this.areaCode);
 
                   //making call
                   phoneNumber.replace(" ", "");
-                  let callReponse: string;
                   let callId = Guid.create().toString().replace('-', String.Empty);
                   let parts = this.user.split('@');
                   this.call(this.userName, callId, phoneNumber, this.domain, parts[0], access_token)
                     .subscribe((data) => {
-                      console.log("CALL DATA : ");
-                      console.log(data);
+                      callResponse = "Call made successfully.";
+                      this.route.navigateByUrl('home');
                     },
                     (error) => {
-                      console.log("Call Exception");
                       console.log(error);
+                      callResponse = "Not able to make call."
                     });
 
-                  //this.route.navigateByUrl('home');
+                  //
                 }
                 else {
                   console.log("No domain");
@@ -90,7 +91,7 @@ export class DialerService {
         (error) => {
           //Invalid login on not able to login
           console.log("Invalid login");
-          this.loginService.clearLocalStorage();
+          this.commonService.clearLocalStorage();
         });
     }
   }

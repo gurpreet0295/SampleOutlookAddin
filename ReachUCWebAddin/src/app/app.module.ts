@@ -12,7 +12,7 @@ import { HomePageComponent } from './components/home-page/home-page.component';
 import { APP_BASE_HREF, LocationStrategy, HashLocationStrategy } from '@angular/common';
 import { OutlookService } from './services/outlook.service';
 import { DialerPadComponent } from './components/dialer-pad/dialer-pad.component';
-
+import { Common } from './services/common.service';
 
 const appRoutes: Routes = [
   { path: '', component: LoginFormComponent },
@@ -33,7 +33,7 @@ const appRoutes: Routes = [
     HttpModule,
     RouterModule.forRoot(appRoutes)
   ],
-  providers: [LoginService, SkySwitchAPIService, OutlookService, DialerPadComponent, { provide: LocationStrategy, useClass: HashLocationStrategy }],
+  providers: [LoginService, SkySwitchAPIService, OutlookService, DialerPadComponent, Common, { provide: LocationStrategy, useClass: HashLocationStrategy }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

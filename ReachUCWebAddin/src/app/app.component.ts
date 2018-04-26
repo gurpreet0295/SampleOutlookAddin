@@ -4,7 +4,7 @@ import { SkySwitchAPIService } from './services/api.service';
 import { LoginService } from './services/login.service';
 import { Http } from '@angular/http';
 import { Router } from '@angular/router';
-
+import { Common } from './services/common.service';
 
 @Component({
   selector: 'app-root',
@@ -13,29 +13,21 @@ import { Router } from '@angular/router';
 })
 export class AppComponent {
 
-  localStorage: Storage;
-  userName: string;
-  password: string;
-  token: string;
-  skyDomain: string;
-  user: string;
-  areaCode: string;
-  domain: string;
-  apiService: SkySwitchAPIService;
-  loginService: LoginService;
-  isLoggedIn: boolean;
+  private localStorage: Storage;
+  private userName: string;
+  private password: string;
+  private apiService: SkySwitchAPIService;
+  private loginService: LoginService;
+  private isLoggedIn: boolean;
+  private commonService: Common;
 
   constructor(private http: Http, private router: Router) {
     this.apiService = new SkySwitchAPIService(http);
-    this.loginService = new LoginService(http);
+    this.loginService = new LoginService(http, router);
+    this.commonService = new Common();
     this.localStorage = window.localStorage;
-    this.userName = this.localStorage.getItem('userName');
-    this.password = this.localStorage.getItem('password');
-    this.token = this.localStorage.getItem('accesstoken');
-    this.domain = this.localStorage.getItem('domain');
-    this.user = this.localStorage.getItem('user');
-    this.areaCode = this.localStorage.getItem('areaCode');
-    console.log(this.userName + this.password + this.token + this.domain + this.user + this.areaCode);
+    this.userName = this.commonService.userName;
+    this.password = this.commonService.password;
     this.checkIsUserLoggedIn();
   }
 
@@ -46,7 +38,7 @@ export class AppComponent {
   checkIsUserLoggedIn() {
     debugger;
     this.localStorage.setItem('skyToken', String.Empty);
-    this.localStorage.setItem('skyUser', String.Empty);
+    this.localStorage.setItem('user', String.Empty);
     this.localStorage.setItem('domain', String.Empty);
 
     if (!String.IsNullOrWhiteSpace(this.localStorage.getItem('userName')) && !String.IsNullOrWhiteSpace(this.localStorage.getItem('password'))) {
@@ -54,33 +46,21 @@ export class AppComponent {
       this.apiService.getToken(this.userName, this.password, "oauth2/token")
         .map(response => response.json())
         .subscribe(({ access_token, refresh_token, expires_in }) => {
-
-          //save login details.
-          this.loginService.storeLoggedInUserData(this.userName, this.password, this.token);
-
+          debugger;
+          this.commonService.storeLoggedInUserData(this.userName, this.password, access_token);
           if (!String.IsNullOrWhiteSpace(access_token)) {
 
-            //Get User Domain
             this.apiService.getUserDomain(this.userName, access_token)
               .map(response => response.json())
               .subscribe((data) => {
 
                 if (data && Array.isArray(data) && data[0].domain) {
-                  this.domain = data[0].domain;
-                  this.user = data[0].user;
-                  this.areaCode = data[0].area_code;
-                  console.log(this.areaCode);
-                  //save user domain details.
-                  this.loginService.storeUserDomain(this.domain, this.user, this.areaCode);
+                  let domain = data[0].domain;
+                  let user = data[0].user;
+                  let areaCode = data[0].area_code;
+                  this.commonService.storeUserDomain(domain, user, areaCode);
                   this.isLoggedIn = true;
-                  console.log(this.router);
-                  try {
-                    this.router.navigateByUrl('home');
-                  }
-                  catch (error) {
-                    console.log("Navigation Error:");
-                    console.log(error);
-                  }
+                  this.router.navigateByUrl('home');
                 }
                 else {
                   console.log("No domain");
@@ -101,13 +81,12 @@ export class AppComponent {
         (error) => {
           //Invalid login on not able to login
           console.log("Invalid login");
-          this.loginService.clearLocalStorage();
+          this.commonService.clearLocalStorage();
           this.isLoggedIn = false;
         });
     }
     else {
       this.isLoggedIn = false;
     }
-
   }
 }

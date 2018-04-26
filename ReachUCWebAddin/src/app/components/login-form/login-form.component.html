@@ -10,13 +10,13 @@
       <div class="ms-Grid-row">
         <div class="ms-Grid-col ms-u-md12">
           <div class="ms-TextField">
-            <input class="ms-TextField-field" name="email" placeholder="Username" type="text" [(ngModel)] ="userName">
+            <input class="ms-TextField-field" name="email" placeholder="Username" type="text" [(ngModel)]="userName">
           </div>
         </div>
 
         <div class="ms-Grid-col ms-u-md12">
           <div class="ms-TextField">
-            <input class="ms-TextField-field" name ="password" placeholder="Password" type="password" [(ngModel)] ="password">
+            <input class="ms-TextField-field" name="password" placeholder="Password" type="password" [(ngModel)]="password">
           </div>
         </div>
       </div>
@@ -32,4 +32,9 @@
 
     </div>
   </form>
+
+  <br />
+  <div class="ms-Grid-col ms-u-md12">
+      {{ loginMessage }}
+  </div>
 </div>

@@ -5,10 +5,10 @@ import { String, StringBuilder } from "typescript-string-operations";
 @Injectable()
 export class SkySwitchAPIService {
 
-  public endpointURl: string;
-  public clientId: string;
-  public grantType: string;
-  public clientSectret: string;
+  private endpointURl: string;
+  private clientId: string;
+  private grantType: string;
+  private clientSectret: string;
 
   constructor(private http: Http) {
     this.endpointURl = "https://pbx.skyswitch.com/ns-api/";
@@ -26,7 +26,7 @@ export class SkySwitchAPIService {
   }
 
 
-  //TODO: API to getDomain
+  //API to getDomain
   getUserDomain(userName:string, token: string) {
     let postData = String.Format("action=read&object=subscriber&login={0}", userName);
     let headers = new Headers({ 'Content-Type': 'application/x-www-form-urlencoded' });
@@ -35,7 +35,7 @@ export class SkySwitchAPIService {
     return this.http.post(this.endpointURl, postData, options);
   }
 
-  //TODO: API for call
+  //API for call
   call(userName: string, callId: string, destination: string, domain: string, origination: string, token: string) {
     let postData = String.Format("action=call&object=call&uid={0}&callid={1}&destination={2}&domain={3}", origination + "@" + domain, callId, destination, domain);
     let headers = new Headers({ 'Content-Type': 'application/x-www-form-urlencoded' });
