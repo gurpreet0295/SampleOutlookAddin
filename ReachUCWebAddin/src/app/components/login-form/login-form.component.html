@@ -1,14 +1,14 @@
 <div class="login-form">
     <div class="login-form-inner">
-        <img class="" src="http://localhost:4200/assets/logo.png" />
+        <img class="" src="https://localhost:442/outlook-addin/assets/logo.png" />
         <form (ngSubmit)="onSubmit()" id="login_form">
             <div class="form-group">
                 <input class="form-control" name="email" placeholder="Username" type="text" [(ngModel)]="userName">
-                <div class="error-mgs">Please enter correct email</div>
+                <div class="error-mgs" [hidden]="isLoginSuccessful">Please enter correct email</div>
             </div>
             <div class="form-group">
                 <input class="form-control" name="password" placeholder="Password" type="password" [(ngModel)]="password">
-                <div class="error-mgs">Please enter correct password</div>
+                <div class="error-mgs" [hidden]="isLoginSuccessful">Please enter correct password</div>
             </div>
             <div class="form-group">
                 <button class="btn btn-primary btn-block" type="submit">

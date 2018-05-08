@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { OutlookService } from '../../services/outlook.service';
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/Rx';
 import { Router } from '@angular/router';
-import { String } from 'typescript-string-operations';
+import { String, StringBuilder } from 'typescript-string-operations';
 import { Common } from '../../services/common.service';
 
 @Component({
@@ -11,43 +13,39 @@ import { Common } from '../../services/common.service';
 })
 export class HomePageComponent implements OnInit {
 
-  phoneNumbers: Array<string>;
+  phoneNumbers: string  
   domain: string;
   user: string;
   areaCode: string;
 
   constructor(private outlookService: OutlookService, private commonService: Common, private route: Router) {
-    Array.isArray(this.phoneNumbers) ? console.log("array") : console.log("not array");
     this.domain = commonService.domain;
     this.user = commonService.user;
     this.areaCode = commonService.areaCode;
-    this.phoneNumbers = new Array<string>(4);
+    this.phoneNumbers = String.Empty;
   }
 
   ngOnInit() {
-    debugger;
     let numbers = this.outlookService.getPhoneNumbers();
-    console.log(this.phoneNumbers);
-    Array.isArray(this.phoneNumbers) ? console.log("array") : console.log("not array");
-    numbers.forEach((num) => {
-      if (num.phonestring && !String.IsNullOrWhiteSpace(num.phoneString)) {
-        console.log("in phonestring " + num.phoneString)
-        this.phoneNumbers.push(num.phoneString);
-      }
-      else {
-        if (num.originalphonestring && !String.IsNullOrWhiteSpace(num.originalPhoneString)) {
-          console.log("in original " + num.originalPhoneString)
-          this.phoneNumbers.push(num.originalPhoneString)
+    if (numbers && numbers.length > 0) {
+      this.phoneNumbers += '<div class="show-list">';
+      this.phoneNumbers += '<ul class="list-group">';
+      this.phoneNumbers += '<li class="list-group-item active" style="background-color: #76c8dc; border-color: #76c8dc; font-size:20px; padding: .5rem 1rem; border-radius:0px"> Phone Numbers</li>'
+      numbers.forEach((num) => {
+        if (num.originalPhoneString && !String.IsNullOrWhiteSpace(num.originalPhoneString)) {
+          this.phoneNumbers += '<li class="list-group-item" style="padding: .5rem 1rem">' + num.originalPhoneString + '</li>';
         }
-      }
-
-      console.log(this.phoneNumbers);
-    })
-    console.log(this.phoneNumbers);
+      });
+      this.phoneNumbers += '</ul>' + '</div';
+      document.getElementById('numbers').innerHTML = this.phoneNumbers;
+    }
   }
 
   onClick() {
-    console.log("In Dialer");
     this.route.navigateByUrl('dialer');
+  }
+
+  openMeetingManager() {
+    this.route.navigateByUrl('meeting');
   }
 }

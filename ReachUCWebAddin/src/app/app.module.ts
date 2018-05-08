@@ -14,11 +14,13 @@ import { OutlookService } from './services/outlook.service';
 import { DialerPadComponent } from './components/dialer-pad/dialer-pad.component';
 import { Common } from './services/common.service';
 import { DialerService } from './services/dialer.service';
+import { MeetingManagerComponent } from './components/meeting-manager/meeting-manager.component';
 
 const appRoutes: Routes = [
   { path: 'login', component: LoginFormComponent },
   { path: 'home', component: HomePageComponent },
-  { path: 'dialer', component: DialerPadComponent }
+  { path: 'dialer', component: DialerPadComponent },
+  { path: 'meeting', component: MeetingManagerComponent }
 ];
 
 @NgModule({
@@ -26,7 +28,8 @@ const appRoutes: Routes = [
     AppComponent,
     LoginFormComponent,
     HomePageComponent,
-    DialerPadComponent
+    DialerPadComponent,
+    MeetingManagerComponent
   ],
   imports: [
     BrowserModule,

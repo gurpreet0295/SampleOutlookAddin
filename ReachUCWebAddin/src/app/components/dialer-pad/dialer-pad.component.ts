@@ -33,8 +33,10 @@ export class DialerPadComponent implements OnInit {
   }
 
   makeCall() {
+    debugger;
     var telNumber = $('#telNumber');
     this.phoneNumber = $(telNumber).val();
     this.dialerService.makeCall(this.phoneNumber, this.callResponse);
   }
+
 }

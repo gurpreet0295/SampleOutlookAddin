@@ -36,12 +36,11 @@ export class DialerService {
       this.localStorage.setItem('domain', String.Empty);
     }
 
-    if (String.IsNullOrWhiteSpace(localStorage.getItem('accessToken'))) {
+    if (String.IsNullOrWhiteSpace(localStorage.getItem('skyToken'))) {
       this.apiService.getToken(this.userName, this.password, "oauth2/token")
         .map(response => response.json())
         .subscribe(({ access_token, refresh_token, expires_in }) => {
 
-          //move common data to new service
           this.commonService.storeLoggedInUserData(this.userName, this.password, this.token);
           if (!String.IsNullOrWhiteSpace(access_token)) {
 
@@ -52,11 +51,8 @@ export class DialerService {
                   this.domain = data[0].domain;
                   this.user = data[0].user;
                   this.areaCode = data[0].area_code;
-                  console.log(this.areaCode);
-                  //save user domain details.
                   this.commonService.storeUserDomain(this.domain, this.user, this.areaCode);
 
-                  //making call
                   phoneNumber.replace(" ", String.Empty);
                   let callId = Guid.create().toString().replace('-', String.Empty);
                   let parts = this.user.split('@');

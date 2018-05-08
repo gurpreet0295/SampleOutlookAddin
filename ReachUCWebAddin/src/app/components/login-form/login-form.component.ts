@@ -12,13 +12,12 @@ import { Common } from '../../services/common.service';
 export class LoginFormComponent implements OnInit {
   
   loginButtonText = 'Log in';
-  loginMessage: string;
   userName: string;
   password: string;
   token: string;
+  isLoginSuccessful: boolean = true;
 
   constructor(private commonService: Common, private loginService: LoginService, private route: Router) {
-    this.loginMessage = String.Empty;
   }
 
   ngOnInit() {
@@ -30,17 +29,21 @@ export class LoginFormComponent implements OnInit {
       .subscribe(({ access_token, refresh_token, expires_in }) => {
         this.commonService.storeLoggedInUserData(this.userName, this.password, access_token);
         if (!String.IsNullOrWhiteSpace(access_token)) {
-          this.loginService.getUserDomain(this.userName, access_token, this.loginMessage);
+          this.loginService.getUserDomain(this.userName, access_token, this.isLoginSuccessful);
         }
         else {
           console.log("Token is null");
-          this.loginMessage = "Invalid User.";
+          this.isLoginSuccessful = false;
+          this.userName = String.Empty;
+          this.password = String.Empty;
         }
       },
       (error) => {
         //Invalid login on not able to login
         console.log("Invalid login");
-        this.loginMessage = "Invalid User.";
+        this.isLoginSuccessful = false;
+        this.userName = String.Empty;
+        this.password = String.Empty;
         this.commonService.clearLocalStorage();
       });
   }

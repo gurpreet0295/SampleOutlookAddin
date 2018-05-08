@@ -1,0 +1,30 @@
+<div class="login-form">
+  <div class="login-form-inner">
+    <div date-picker="start" view="year"></div>
+    <p>Meeting Password: <input type="text" [(ngModel)]="meetingPassword" /></p>
+    <br />
+    <p>Meeting Type: </p>
+    <select class="meetingType" (onchange)="onChange()">
+      <option value="Interactive Meeting">Interactive Meeting</option>
+      <option value="HD Video Conference">HD Video Conference</option>
+      <option value="Webinar">Webinar</option>
+      <option value="Remote Support">Remote Support</option>
+      <option value="Remote Access to this Computer">Remote Access to this Computer</option>
+    </select>
+    <p>Meeting Date: <input type="text" [(ngModel)]="meetingDate"></p>
+    <br />
+    <p>Start Time: <input type="text" [(ngModel)]="meetingStartTime" /></p>
+    <br />
+    <p>End Time: <input type="text" [(ngModel)]="meetingEndTime" /></p>
+    <br />
+    <p>Recurrence <input type="checkbox" [(ngModel)]="isRecurring" /></p>
+    <br />
+    <div class="form-group">
+      <button class="btn btn-primary btn-block" (click)="openMeetingManager()" type="button">
+        <span class="ms-Button-label-new">Meeting Manager</span>
+        <span class="ms-Button-description">Opens Meeting Manager</span>
+      </button>
+    </div>
+    <br />
+  </div>
+</div>

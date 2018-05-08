@@ -19,14 +19,14 @@ export class LoginService {
       .map(response => response.json());
   }
 
-  getUserDomain(userName: string, token: any, loginMessage: string) {
+  getUserDomain(userName: string, token: any, isLoginSuccessful: boolean) {
     return this.apiResponse.getUserDomain(userName, token)
       .map(response => response.json())
       .subscribe((data) => {
 
         debugger;
         if (data && Array.isArray(data) && data[0].domain) {
-          loginMessage = "Successfully Logged in.";
+          isLoginSuccessful = true;
           let domain = data[0].domain;
           let user = data[0].user;
           let areaCode = data[0].area_code;
@@ -36,12 +36,12 @@ export class LoginService {
         }
         else {
           console.log("No domain");
-          loginMessage = "Invalid User.";
+          isLoginSuccessful = false;
         }
       },
       (error) => {
         console.log(error);
-        loginMessage = "Invalid User.";
+        isLoginSuccessful = false;
       });
   }
 
