@@ -88,3 +88,39 @@
     text-align: left;
     color: #f00;
 }
+
+.custom-dropdown .btn span {
+    display: block;
+    width: 40px;
+    height: 4px;
+    background-color: #fff;
+    margin-top: 5px;
+}
+
+.custom-dropdown .btn span:first-child {
+    margin-top: 0px;
+}
+
+.custom-dropdown .dropdown-toggle::after {
+    content: none;
+}
+
+.custom-dropdown .dropdown-menu {
+    width: 100%;
+    margin-top: 0px;
+    border-radius: 0px;
+    -webkit-border-radius: 0px;
+    border-color: #ccc;
+    position: relative;
+}
+
+.custom-dropdown .dropdown-item {
+    padding-left: 1rem;
+    padding-right: 1rem;
+    cursor: pointer;
+}
+
+.custom-dropdown .dropdown-item.active,
+.custom-dropdown .dropdown-item:active {
+    background-color: #19748a;
+}
