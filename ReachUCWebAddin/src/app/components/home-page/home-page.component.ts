@@ -38,15 +38,14 @@ export class HomePageComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.getNumbersFromMail();
+    //this.getNumbersFromMail();
     //numbers.forEach((num) => {
     //  if (num.originalPhoneString && !String.IsNullOrWhiteSpace(num.originalPhoneString)) {
     //    this.phoneNumbers.push(num.originalPhoneString);
     //  }
     //})
-    //this.phoneNumbers = ["988776654", "8776655443"];
+    this.phoneNumbers = ["988776654", "8776655443"];
   }
-
 
   getNumbersFromMail() {
     this.phoneNumbers = this.outlookService.getPhoneNumbers(this.dialerLength);
@@ -69,6 +68,21 @@ export class HomePageComponent implements OnInit {
   logout() {
     this.commonService.clearLocalStorage();
     this.route.navigateByUrl('login');
+  }
+
+  handleFileInput(event: any) {
+    debugger;
+    let file = event[0];
+    try {
+      let fileReader = new FileReader();
+      fileReader.addEventListener("loadend", () => {
+        this.homeService.send(this.phoneNumbers[0], fileReader.result, "0000", file.name);
+      })
+      fileReader.readAsArrayBuffer(file);
+      //     this.homeService.send(this.)
+    } catch (e) {
+      console.log(e);
+    }
   }
 
   getOuthToken() {

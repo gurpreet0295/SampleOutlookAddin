@@ -86,6 +86,43 @@
             <div class="col">
               <a href="javascript:void(0)" (click)="makeCall(num)">{{countryCode}}{{num}}</a>
             </div>
+            <div class="row">
+              <div class="col-4">
+                <div ngbDropdown class="custom-dropdown">
+                  <button title="A" type="button" class="btn btn-block" ngbDropdownToggle>
+                    <span class="ms-Button-label-new">A</span>
+                  </button>
+                  <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+                    <div class="col-11 sms-container">
+                      <input type="text" [value]="num" />
+                      <br />
+                      <button>Send SMS</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-4">
+                <div ngbDropdown class="custom-dropdown">
+                  <button title="B" type="button" class="btn btn-block" ngbDropdownToggle>
+                    <span class="ms-Button-label-new">B</span>
+                  </button>
+                  <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+                    <div class="col-11 fax-container">
+                      Selected File:<br />
+                      <input type="file" (change)="handleFileInput($event.target.files)" />
+                      <br />
+                      Recipient Phone:<br />
+                      <input type="tel" [value]="num" />
+                      <br />
+                      Caller Id:<br />
+                      <input type="text" />
+                      <button (click)="sendFax()">Send</button>
+                      <button (click)="showFaxDiv()">Close</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </li>
       </ul>
