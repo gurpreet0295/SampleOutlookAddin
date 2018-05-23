@@ -17,13 +17,12 @@ export class DialerPadComponent implements OnInit {
   callResponse: string;
   
 
-  constructor(private dialerService: DialerService, private http: Http, private route: Router) {
+  constructor(private dialerService: DialerService, private http: Http, private router: Router) {
     this.phoneNumber = "";
     this.callResponse = "";
   }
 
   ngOnInit() {
-    debugger;
       $('.num').click(function () {
         var num = $(this);
         var text = $.trim(num.find('.txt').clone().children().remove().end().text());
@@ -33,10 +32,12 @@ export class DialerPadComponent implements OnInit {
   }
 
   makeCall() {
-    debugger;
     var telNumber = $('#telNumber');
     this.phoneNumber = $(telNumber).val();
-    this.dialerService.makeCall(this.phoneNumber, this.callResponse);
+    this.dialerService.makeCall(this.phoneNumber);
   }
 
+  navigateToHome() {
+    this.router.navigateByUrl('home');
+  }
 }

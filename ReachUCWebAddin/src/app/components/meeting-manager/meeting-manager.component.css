@@ -3,10 +3,10 @@
 }
 
 .show-list label {
-    margin-bottom: 0px;
-    padding-top: 7px;
+    margin-bottom: 5px;
+    padding-top: 0px;
     display: block;
-    text-align: right;
+    text-align: left;
 }
 
 .show-list .list-group-item.active {
@@ -35,9 +35,14 @@ select.form-control:not([size]):not([multiple]) {
 
 .show-list label.checklist {
     padding: 0px;
+    margin-bottom: 0px;
 }
 
 .checklist input[type='checkbox'] {
     position: relative;
     top: 2px;
+}
+
+.show-list label.time-top-space{
+  padding-top:47px;
 }

@@ -1,17 +1,44 @@
 import { Injectable } from "@angular/core";
+import { String, StringBuilder } from 'typescript-string-operations';
+import { forEach } from "@angular/router/src/utils/collection";
 
 declare let Office: any;
 @Injectable()
 export class OutlookService {
   constructor() {}
 
-  public getPhoneNumbers(): any[] {
+  public getPhoneNumbers(dialerLength:string): any[] {
     let numbers: any[];
-
+    numbers = new Array<any>();
     try {
-      let currentMail: any = Office.cast.item.toItemRead(Office.context.mailbox.item);
-      numbers = currentMail.getEntitiesByType(Office.MailboxEnums.EntityType.PhoneNumber);
-      console.log(numbers);
+      /*
+       *This method only returns number contating '-'. 
+        let currentMail: any = Office.cast.item.toItemRead(Office.context.mailbox.item);
+        numbers = currentMail.getEntitiesByType(Office.MailboxEnums.EntityType.PhoneNumber);
+      */
+
+      Office.context.mailbox.item.body.getAsync(
+        "text",
+        { asyncContext: "This is passed to the callback" },
+        function callback(result) {
+          let lines = result.value.split("\n");
+          let regExp = new RegExp(String.Format("([\+]?[0-9\-\(\)]{7,\{0\}})", dialerLength));
+          console.log(regExp);
+          lines && lines.forEach((line) => {
+            let numbersFound = line.match(regExp);
+            if (Array.isArray(numbersFound)) {
+              numbersFound.forEach((number) => {
+                if (!(numbers.indexOf(number) > -1)) {
+                  numbers.push(number);
+                }
+              });
+            } else {
+              numbersFound && numbers.push(numbersFound);
+            }
+          });
+          console.log(numbers);
+        }
+      );
     }
     catch (error) {
       console.log("in office service exception");
@@ -20,25 +47,26 @@ export class OutlookService {
     return numbers;
   }
 
-  public openNewAppointmentWindow(meetingDate: Date, meetingTopic: string, meetingPassword: string, meetingType: string, meetingStartTime: string, meetingEndTime: string, isRecurring: boolean) {
-    //var start = meetingDate;
-    //start.setHours
-    //var end = new Date();
-    //end.setHours(start.getHours() + 1);
-    var start = new Date(meetingStartTime).getTime();
-    var end = new Date(meetingEndTime).getTime();
+  public openNewAppointmentWindow(meetingTopic: string, meetingStartTime: any, meetingEndTime: any, isRecurring: boolean, meetingText: string) {
+    try {
+      let currentMail: any = Office.context.mailbox.item;
+      let address = currentMail.from;
+      let emailAddress = address.emailAddress;
 
-    Office.context.mailbox.displayNewAppointmentForm(
-      {
-        requiredAttendees: ['bob@contoso.com'],
-        optionalAttendees: ['sam@contoso.com'],
-        start: start,
-        end: end,
-        location: 'Home',
-        resources: ['projector@contoso.com'],
-        subject: meetingTopic,
-        body: meetingPassword + " " + isRecurring
-      });
+      Office.context.mailbox.displayNewAppointmentForm(
+        {
+          requiredAttendees: [emailAddress],
+          start: meetingStartTime,
+          end: meetingEndTime,
+          location: 'ReachUC Meeting',
+          subject: meetingTopic,
+          body: meetingText
+        });
+    }
+    catch (error) {
+      console.log(error);
+    }
     
   }
 }
+

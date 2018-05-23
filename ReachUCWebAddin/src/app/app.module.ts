@@ -15,6 +15,9 @@ import { DialerPadComponent } from './components/dialer-pad/dialer-pad.component
 import { Common } from './services/common.service';
 import { DialerService } from './services/dialer.service';
 import { MeetingManagerComponent } from './components/meeting-manager/meeting-manager.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { MeetingService } from './services/meeting.service';
+import { HomeService } from './services/home.service';
 
 const appRoutes: Routes = [
   { path: 'login', component: LoginFormComponent },
@@ -35,9 +38,10 @@ const appRoutes: Routes = [
     BrowserModule,
     FormsModule,
     HttpModule,
+    NgbModule.forRoot(),
     RouterModule.forRoot(appRoutes)
   ],
-  providers: [LoginService, SkySwitchAPIService, OutlookService, DialerService, Common, { provide: LocationStrategy, useClass: HashLocationStrategy }],
+  providers: [LoginService, SkySwitchAPIService, OutlookService, DialerService, Common, MeetingService, HomeService, { provide: LocationStrategy, useClass: HashLocationStrategy }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

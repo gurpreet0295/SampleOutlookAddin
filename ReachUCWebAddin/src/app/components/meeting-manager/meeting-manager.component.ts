@@ -1,7 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { OutlookService } from '../../services/outlook.service';
+import { MeetingService } from '../../services/meeting.service';
+import { String } from 'typescript-string-operations';
+import { Router } from '@angular/router';
 
 declare var $: any;
+const now = new Date();
 
 @Component({
   selector: 'app-meeting-manager',
@@ -10,28 +14,55 @@ declare var $: any;
 })
 export class MeetingManagerComponent implements OnInit {
 
-  meetingType: string;
-  meetingDate: Date;
+  small: string = "small";
+  hourStep = 1;
+  minuteStep = 30;
+  meridian = true;
+  startTime: any;
+  endTime: any;
+  meetingDate: any;
   meetingTopic: string;
   meetingPassword: string;
-  meetingStartTime: string;
-  meetingEndTime: string;
+  meetingType: number;
   isRecurring: boolean;
-  constructor(
-    private outlookService: OutlookService
-  ) { }
+  showMeetingDetails: boolean = true;
+
+  constructor(private outlookService: OutlookService, public meetingService: MeetingService, private router: Router) {
+    this.meetingTopic = "";
+    this.meetingPassword = "";
+    this.meetingType = 1;
+    this.isRecurring = false;
+    this.meetingDate = { year: now.getFullYear(), month: now.getMonth() + 1, day: now.getDate() };
+    this.startTime = { hour: now.getHours() + 1, minute: 0o0 };
+    this.endTime = { hour: now.getHours() + 2, minute: 0o0 };
+  }
 
   ngOnInit() {
+    this.meetingService.showMeetingDetails = true;
   }
 
-  onChange() {
-    this.meetingType = $(".country option:selected").val();
+  sheduleMeeting() {
+      this.setMeetingDetails();
+      this.meetingService.sheduleMeeting();
   }
 
-  openMeetingManager() {
-    //this.route.navigateByUrl('meeting');
+  formatDate() {
+    return new Date(this.meetingDate.year, this.meetingDate.month, this.meetingDate.day);
+  }
+
+  setMeetingDetails() {
+    this.meetingService.meetingTopic = this.meetingTopic;
+    this.meetingService.meetingPassword = this.meetingPassword;
+    this.meetingService.meetingDate = this.formatDate();
+    this.meetingService.meetingType = this.meetingType;
+    this.meetingService.meetingStartTime = this.startTime;
+    this.meetingService.meetingEndTime = this.endTime;
+    this.meetingService.isRecurring = this.isRecurring;
+  }
+
+  sendInvite() {
     try {
-      this.outlookService.openNewAppointmentWindow(this.meetingDate, this.meetingTopic, this.meetingPassword, this.meetingType, this.meetingStartTime, this.meetingEndTime, this.isRecurring);
+      this.meetingService.openNewAppointmentWindow();
     }
     catch (e) {
       console.log(e);

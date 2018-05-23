@@ -11,16 +11,28 @@ export class Common {
   skyToken: string;
   areaCode: string;
   localStorage: Storage;
+  isGettingResponse: boolean = false;
+  meetingText:string = `1. Please join my MeetingManager session on {2}.
+Link: {0}
+
+Meeting ID: {3}
+Meeting Password: {4}
+
+2. Use your microphone and speakers(VoIP - a headset is recommended).Or, call in using your telephone.
+
+Phone Number: {1}
+
+TIPS: Avoid wireless connections since they may cause disconnections and slow down screen updates.
+A headset is recommended when using your microphone and speakers(VoIP).`;
 
   constructor() {
-    debugger;
     this.localStorage = window.localStorage;
-    this.userName = localStorage.getItem('userName');
-    this.password = localStorage.getItem('password');
-    this.user = localStorage.getItem('user');
-    this.domain = localStorage.getItem('domain');
-    this.areaCode = localStorage.getItem('areaCode');
-    this.skyToken = localStorage.getItem('skyToken');
+    this.userName = localStorage.getItem('userName') || "";
+    this.password = localStorage.getItem('password') || "";
+    this.user = localStorage.getItem('user') || "";
+    this.domain = localStorage.getItem('domain') || "";
+    this.areaCode = localStorage.getItem('areaCode') || "";
+    this.skyToken = localStorage.getItem('skyToken') || "";
   }
 
   storeLoggedInUserData(userName: string, password: string, skyToken: string) {

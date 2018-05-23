@@ -1,8 +1,7 @@
 import { Injectable } from "@angular/core";
 import { Http, Headers, RequestOptions } from "@angular/http";
 import { String, StringBuilder } from "typescript-string-operations";
-import { SkySwitchAPIService } from "./api.service"
-import { Observable } from 'rxjs/Observable';
+import { SkySwitchAPIService } from "./api.service";
 import 'rxjs/add/operator/map';
 import { Response } from "@angular/http/src/static_response";
 import { Common } from "./common.service";
@@ -24,22 +23,24 @@ export class LoginService {
       .map(response => response.json())
       .subscribe((data) => {
 
-        debugger;
         if (data && Array.isArray(data) && data[0].domain) {
           isLoginSuccessful = true;
           let domain = data[0].domain;
           let user = data[0].user;
           let areaCode = data[0].area_code;
 
+          this.commonService.isGettingResponse = false;
           this.commonService.storeUserDomain(domain, user, areaCode);
           this.route.navigateByUrl('home');
         }
         else {
+          this.commonService.isGettingResponse = false;
           console.log("No domain");
           isLoginSuccessful = false;
         }
       },
       (error) => {
+        this.commonService.isGettingResponse = false;
         console.log(error);
         isLoginSuccessful = false;
       });

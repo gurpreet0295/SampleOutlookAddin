@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { LoginService } from '../../services/login.service';
 import { String, StringBuilder } from "typescript-string-operations";
-import { Router } from '@angular/router';
 import { Common } from '../../services/common.service';
 
 @Component({
@@ -17,14 +16,14 @@ export class LoginFormComponent implements OnInit {
   token: string;
   isLoginSuccessful: boolean = true;
 
-  constructor(private commonService: Common, private loginService: LoginService, private route: Router) {
+  constructor(private commonService: Common, private loginService: LoginService) {
   }
 
   ngOnInit() {
   }
 
   onSubmit() {
-
+    this.commonService.isGettingResponse = true;
     this.loginService.loginToReachUC(this.userName, this.password)
       .subscribe(({ access_token, refresh_token, expires_in }) => {
         this.commonService.storeLoggedInUserData(this.userName, this.password, access_token);
@@ -32,6 +31,7 @@ export class LoginFormComponent implements OnInit {
           this.loginService.getUserDomain(this.userName, access_token, this.isLoginSuccessful);
         }
         else {
+          this.commonService.isGettingResponse = false;
           console.log("Token is null");
           this.isLoginSuccessful = false;
           this.userName = String.Empty;
@@ -40,6 +40,7 @@ export class LoginFormComponent implements OnInit {
       },
       (error) => {
         //Invalid login on not able to login
+        this.commonService.isGettingResponse = false;
         console.log("Invalid login");
         this.isLoginSuccessful = false;
         this.userName = String.Empty;

@@ -28,8 +28,7 @@ export class DialerService {
     this.password = this.commonService.password;
   }
 
-  makeCall(phoneNumber: string, callResponse: string) {
-    debugger;
+  makeCall(phoneNumber: string) {
     if (!String.IsNullOrWhiteSpace(this.token)) {
       this.localStorage.setItem('skyToken', String.Empty);
       this.localStorage.setItem('user', String.Empty);
@@ -37,6 +36,7 @@ export class DialerService {
     }
 
     if (String.IsNullOrWhiteSpace(localStorage.getItem('skyToken'))) {
+      this.commonService.isGettingResponse = true;
       this.apiService.getToken(this.userName, this.password, "oauth2/token")
         .map(response => response.json())
         .subscribe(({ access_token, refresh_token, expires_in }) => {
@@ -58,29 +58,33 @@ export class DialerService {
                   let parts = this.user.split('@');
                   this.call(this.userName, callId, phoneNumber, this.domain, parts[0], access_token)
                     .subscribe((data) => {
-                      callResponse = "Call made successfully.";
+                      this.commonService.isGettingResponse = false;
                       this.route.navigateByUrl('home');
                     },
                     (error) => {
+                      this.commonService.isGettingResponse = false;
                       console.log(error);
-                      callResponse = "Not able to make call."
                     });
                 }
                 else {
+                  this.commonService.isGettingResponse = false;
                   console.log("No domain");
                 }
               },
               (error) => {
+                this.commonService.isGettingResponse = false;
                 console.log(error);
               });
           }
           else {
+            this.commonService.isGettingResponse = false;
             console.log("Token is null");
           }
         },
         (error) => {
           //Invalid login on not able to login
           console.log("Invalid login");
+          this.commonService.isGettingResponse = false;
           this.commonService.clearLocalStorage();
         });
     }

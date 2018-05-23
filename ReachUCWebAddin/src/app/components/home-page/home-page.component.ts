@@ -5,6 +5,9 @@ import 'rxjs/Rx';
 import { Router } from '@angular/router';
 import { String, StringBuilder } from 'typescript-string-operations';
 import { Common } from '../../services/common.service';
+import { DialerService } from '../../services/dialer.service';
+import { HomeService } from '../../services/home.service';
+import { SkySwitchAPIService } from '../../services/api.service';
 
 @Component({
   selector: 'app-home-page',
@@ -13,39 +16,69 @@ import { Common } from '../../services/common.service';
 })
 export class HomePageComponent implements OnInit {
 
-  phoneNumbers: string  
+  phoneNumbers: string[];
   domain: string;
   user: string;
   areaCode: string;
 
-  constructor(private outlookService: OutlookService, private commonService: Common, private route: Router) {
+  countryCode: string;
+  prefix: string;
+  dialerLength: string = "12";
+
+  showSms: boolean = true;
+  showFax: boolean = true;
+
+  file: any;
+
+  constructor(private outlookService: OutlookService, private commonService: Common, private dialerService: DialerService, private homeService: HomeService, private route: Router, private api: SkySwitchAPIService) {
     this.domain = commonService.domain;
     this.user = commonService.user;
     this.areaCode = commonService.areaCode;
-    this.phoneNumbers = String.Empty;
+    this.phoneNumbers = new Array<string>();
   }
 
   ngOnInit() {
-    let numbers = this.outlookService.getPhoneNumbers();
-    if (numbers && numbers.length > 0) {
-      this.phoneNumbers += '<div class="show-list">';
-      this.phoneNumbers += '<ul class="list-group">';
-      this.phoneNumbers += '<li class="list-group-item active" style="background-color: #76c8dc; border-color: #76c8dc; font-size:20px; padding: .5rem 1rem; border-radius:0px"> Phone Numbers</li>'
-      numbers.forEach((num) => {
-        if (num.originalPhoneString && !String.IsNullOrWhiteSpace(num.originalPhoneString)) {
-          this.phoneNumbers += '<li class="list-group-item" style="padding: .5rem 1rem">' + num.originalPhoneString + '</li>';
-        }
-      });
-      this.phoneNumbers += '</ul>' + '</div';
-      document.getElementById('numbers').innerHTML = this.phoneNumbers;
-    }
+    this.getNumbersFromMail();
+    //numbers.forEach((num) => {
+    //  if (num.originalPhoneString && !String.IsNullOrWhiteSpace(num.originalPhoneString)) {
+    //    this.phoneNumbers.push(num.originalPhoneString);
+    //  }
+    //})
+    //this.phoneNumbers = ["988776654", "8776655443"];
   }
 
-  onClick() {
+
+  getNumbersFromMail() {
+    this.phoneNumbers = this.outlookService.getPhoneNumbers(this.dialerLength);
+  }
+
+  makeCall(number: string) {
+    number = this.countryCode + number;
+    this.dialerService.makeCall(number);
+
+  }
+
+  openDialer() {
     this.route.navigateByUrl('dialer');
   }
 
   openMeetingManager() {
     this.route.navigateByUrl('meeting');
+  }
+
+  logout() {
+    this.commonService.clearLocalStorage();
+    this.route.navigateByUrl('login');
+  }
+
+  getOuthToken() {
+    this.api.getOuthToken()
+      .subscribe(
+      (response) => {
+        console.log(response);
+      },
+      (error) => {
+        console.log(error);
+      })
   }
 }
