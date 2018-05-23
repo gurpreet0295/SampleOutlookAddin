@@ -40,7 +40,7 @@
     background-color: #fff;
     border-radius: 0px;
     -webkit-border-radius: 0px;
-    height: 44px;
+    height: 35px;
     padding: 9px 12px;
 }
 
@@ -120,38 +120,39 @@
     padding-right: 1rem;
     cursor: pointer;
 }
-  .custom-dropdown .dropdown-item:hover {
+
+.custom-dropdown .dropdown-item:hover {
     background-color: #19748a;
     color: #fff;
-  }
+}
 
-  .custom-dropdown .dropdown-item.active,
-  .custom-dropdown .dropdown-item:active {
+.custom-dropdown .dropdown-item.active,
+.custom-dropdown .dropdown-item:active {
     background-color: #19748a;
-  }
+}
 
 .back-button {
-  display: block;
-  color: #359bb4;
-  margin: 5px 0px;
-  text-align: left;
-  overflow: hidden;
-
+    display: block;
+    color: #359bb4;
+    margin: 5px 0px;
+    text-align: left;
+    overflow: hidden;
 }
- .back-button img {
+
+.back-button img {
     float: left;
     margin-right: 5px;
     margin-bottom: 0px;
     width: 9px;
     position: relative;
     top: 4px;
- }
+}
 
 .response-loader {
-  background: rgba(255, 255, 255, .6) url('../src/assets/spinner.gif') no-repeat 50% 50%;
-  width: 100%;
-  height: 100%;
-  display: block;
-  position: fixed;
-  z-index: 9;
+    background: rgba(255, 255, 255, .6) url('assets/loader.gif') no-repeat 50% 50%;
+    width: 100%;
+    height: 100%;
+    display: block;
+    position: fixed;
+    z-index: 9;
 }

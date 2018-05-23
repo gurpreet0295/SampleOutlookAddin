@@ -20,6 +20,7 @@ export class HomePageComponent implements OnInit {
   domain: string;
   user: string;
   areaCode: string;
+  public isCollapsed = true;
 
   countryCode: string;
   prefix: string;
