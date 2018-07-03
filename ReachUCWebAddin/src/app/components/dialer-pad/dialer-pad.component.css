@@ -50,18 +50,18 @@ p {
     margin: auto;
 }
 
-.num:hover {
-    background-color: #359bb4;
-    color: #fff;
-    transition-property: background-color .2s linear 0s;
-    -moz-transition: background-color .2s linear 0s;
-    -webkit-transition: background-color .2s linear 0s;
-    -o-transition: background-color .2s linear 0s;
-}
+    .num:hover {
+        background-color: #359bb4;
+        color: #fff;
+        transition-property: background-color .2s linear 0s;
+        -moz-transition: background-color .2s linear 0s;
+        -webkit-transition: background-color .2s linear 0s;
+        -o-transition: background-color .2s linear 0s;
+    }
 
-.num:hover .txt {
-    color: #fff;
-}
+        .num:hover .txt {
+            color: #fff;
+        }
 
 .txt {
     font-size: 30px;
@@ -82,12 +82,12 @@ p {
     letter-spacing: 1px;
 }
 
-.btn:hover {
-    transition-property: background-color .2s linear 0s;
-    -moz-transition: background-color .2s linear 0s;
-    -webkit-transition: background-color .2s linear 0s;
-    -o-transition: background-color .2s linear 0s;
-}
+    .btn:hover {
+        transition-property: background-color .2s linear 0s;
+        -moz-transition: background-color .2s linear 0s;
+        -webkit-transition: background-color .2s linear 0s;
+        -o-transition: background-color .2s linear 0s;
+    }
 
 .spanicons {
     width: 72px;
@@ -99,13 +99,13 @@ p {
     cursor: pointer;
 }
 
-.spanicons:hover {
-    color: #3498db;
-    transition-property: color .2s linear 0s;
-    -moz-transition: color .2s linear 0s;
-    -webkit-transition: color .2s linear 0s;
-    -o-transition: color .2s linear 0s;
-}
+    .spanicons:hover {
+        color: #3498db;
+        transition-property: color .2s linear 0s;
+        -moz-transition: color .2s linear 0s;
+        -webkit-transition: color .2s linear 0s;
+        -o-transition: color .2s linear 0s;
+    }
 
 .active {
     color: #3498db;
@@ -114,4 +114,30 @@ p {
 .number-pad {
     overflow: hidden;
     text-align: center;
+}
+
+.round-button {
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    padding: 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    border-radius: 50%;
+}
+
+.dark-modal .modal-content {
+    background-color: #292b2c;
+    color: white;
+}
+
+.dark-modal .close {
+    color: white;
+}
+
+.light-blue-backdrop {
+    background-color: #5cb3fd;
 }

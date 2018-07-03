@@ -17,6 +17,8 @@ export class AppComponent {
   private userName: string;
   private password: string;
   private isLoggedIn: boolean;
+  permissions: string[];
+  showLoader: boolean = false;
 
   constructor(private loginService: LoginService, private apiService: SkySwitchAPIService, public commonService: Common, private http: Http, private router: Router) {
     this.localStorage = window.localStorage;
@@ -26,12 +28,19 @@ export class AppComponent {
 
   ngOnInit() {
     this.checkIsUserLoggedIn();
+    this.commonService.isGettingResponse.subscribe(
+      (response) => {
+        this.showLoader = response;
+      },
+      (error) => {
+        this.showLoader = false;
+      })
   }
 
   checkIsUserLoggedIn() {
 
     if (!String.IsNullOrWhiteSpace(this.localStorage.getItem('userName')) && !String.IsNullOrWhiteSpace(this.localStorage.getItem('password'))) {
-      this.commonService.isGettingResponse = true;
+      this.commonService.changeLoaderStatus(true);
       this.apiService.getToken(this.userName, this.password, "oauth2/token")
         .map(response => response.json())
         .subscribe(({ access_token, refresh_token, expires_in }) => {
@@ -47,25 +56,26 @@ export class AppComponent {
                   let areaCode = data[0].area_code;
                   this.commonService.storeUserDomain(domain, user, areaCode);
                   this.isLoggedIn = true;
-                  this.commonService.isGettingResponse = false;
+                  this.commonService.changeLoaderStatus(false);
+                  this.loginService.getUserPermissions();
                   this.router.navigateByUrl('home');
                 }
                 else {
                   console.log("No domain");
                   this.isLoggedIn = false;
-                  this.commonService.isGettingResponse = false;
+                  this.commonService.changeLoaderStatus(false);
                   this.router.navigateByUrl('login');
                 }
               },
               (error) => {
                 console.log(error);
-                this.commonService.isGettingResponse = false;
+                this.commonService.changeLoaderStatus(false);
                 this.isLoggedIn = false;
               });
           }
           else {
             console.log("Token is null");
-            this.commonService.isGettingResponse = false;
+            this.commonService.changeLoaderStatus(false);
             this.isLoggedIn = false;
             this.router.navigateByUrl('login');
           }
@@ -73,15 +83,17 @@ export class AppComponent {
         (error) => {
           //Invalid login on not able to login
           console.log("Invalid login");
-          this.commonService.isGettingResponse = false;
+          this.commonService.changeLoaderStatus(false);
           this.commonService.clearLocalStorage();
           this.isLoggedIn = false;
         });
     }
     else {
-      this.commonService.isGettingResponse = false;
+      this.commonService.changeLoaderStatus(false);
       this.isLoggedIn = false;
       this.router.navigateByUrl('login');
     }
   }
+
+  
 }

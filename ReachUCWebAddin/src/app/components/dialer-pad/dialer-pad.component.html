@@ -1,6 +1,39 @@
+<ng-template #smsContent let-c="close" let-d="dismiss">
+    <div class="modal-header">
+        <h4 class="modal-title">SMS</h4>
+        <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <textarea  rows="4"></textarea>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-light" >Send Sms</button>
+    </div>
+</ng-template>
+
+<ng-template #faxContent let-c="close" let-d="dismiss">
+    <div class="modal-header">
+        <h4 class="modal-title">FAX</h4>
+        <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <input name="file" class="file-input" type="file"/>
+        <select>
+            <option>0000000000</option>
+        </select>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-light">Send Fax</button>
+    </div>
+</ng-template>
+
 <div class="login-form">
   <div class="login-form-inner">
-    <a class="back-button" routerLink="/home"><img src="https://localhost:442/outlook-addin/assets/back.png" alt="" /> Back</a>
+    <a class="back-button" routerLink="/home"><img src="/assets/back.png" alt="" /> Back</a>
     <div class="phone">
       <div class="">
         <div class="">
@@ -93,7 +126,9 @@
           </div>
           <div class="clearfix"></div>
           <div class="form-group">
-            <button class="btn btn-primary btn-block flatbtn" (click)="makeCall()">CALL</button>
+              <button class="round-button" (click)="sendSms(smsContent)">SMS</button>
+              <button class="round-button" (click)="makeCall()">CALL</button>
+              <button class="round-button" (click)="sendFax(faxContent)">FAX</button>
           </div>
         </div>
       </div>

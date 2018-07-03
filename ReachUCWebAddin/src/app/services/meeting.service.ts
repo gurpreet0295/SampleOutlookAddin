@@ -38,13 +38,13 @@ export class MeetingService {
     this.startDate.setHours(this.meetingStartTime.hour);
     this.startDate.setMinutes(this.meetingStartTime.minute);
     var startTimeFormat = this.dateformat.transform(this.meetingDate, longDateFormat);
-
+    
     this.endDate = new Date(this.meetingDate);
     this.endDate.setHours(this.meetingEndTime.hour);
     this.endDate.setMinutes(this.meetingEndTime.minute);
     var endTimeFormat = this.dateformat.transform(this.meetingDate, longDateFormat);
-
-    this.commonService.isGettingResponse = true;
+   
+    this.commonService.changeLoaderStatus(true);
     this.apiService.getMeetingId(startTimeFormat, endTimeFormat, this)
       .map(response => response.text())
       .subscribe(
@@ -57,8 +57,7 @@ export class MeetingService {
             .subscribe(
             (response) => {
               try {
-                console.log("2nd api");
-                this.commonService.isGettingResponse = false;
+                this.commonService.changeLoaderStatus(false);
                 $xmlResponse = $($.parseXML(response));
                 if ($xmlResponse.find("__Return__").length && $xmlResponse.find("__Return__").find("__Status__").text() == "SUCCEED") {
                   var inviteURL = $xmlResponse.find("__MeetingInviteURL__").text();
@@ -68,34 +67,34 @@ export class MeetingService {
                     this.meetingPassword = "No password needed.";
                   }
                   if (inviteURL && this.conferenceNumber && this.meetingInviteURL) {
-                    this.meetingText = String.Format(this.commonService.meetingText, this.meetingInviteURL, this.conferenceNumber, this.startDate.toDateString(), this.meetingId, this.meetingPassword);
+                    this.meetingText = String.Format(this.commonService.meetingText, this.meetingInviteURL, this.conferenceNumber, this.startDate.toString(), this.meetingId, this.meetingPassword);
                     this.showMeetingDetails = false;
                   }
                   else {
-                    this.commonService.isGettingResponse = false;
+                    this.commonService.changeLoaderStatus(false);
                     this.showMeetingDetails = true;
                   }
                 }
               }
               catch (error) {
-                this.commonService.isGettingResponse = false;
+                this.commonService.changeLoaderStatus(false);
                 console.log(error);
               }
             },
             (error) => {
               console.log(error);
-              this.commonService.isGettingResponse = false;
+              this.commonService.changeLoaderStatus(false);
               this.showMeetingDetails = true;
             }
             );
         }
         else {
-          this.commonService.isGettingResponse = false;
+          this.commonService.changeLoaderStatus(false);
           console.log("Something went wrong!!");
         }
       },
       (error) => {
-        this.commonService.isGettingResponse = false;
+        this.commonService.changeLoaderStatus(false);
         console.log(error);
       }
       );

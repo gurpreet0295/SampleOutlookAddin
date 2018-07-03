@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { DialerService } from '../../services/dialer.service';
 import { Http } from '@angular/http';
 import { Router } from '@angular/router';
-
+import { HomeService } from '../../services/home.service';
+import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 
 declare var $: any;
 
@@ -17,7 +18,7 @@ export class DialerPadComponent implements OnInit {
   callResponse: string;
   
 
-  constructor(private dialerService: DialerService, private http: Http, private router: Router) {
+  constructor(private dialerService: DialerService, private homeService: HomeService, private http: Http, private router: Router, private modalService: NgbModal) {
     this.phoneNumber = "";
     this.callResponse = "";
   }
@@ -35,6 +36,14 @@ export class DialerPadComponent implements OnInit {
     var telNumber = $('#telNumber');
     this.phoneNumber = $(telNumber).val();
     this.dialerService.makeCall(this.phoneNumber);
+  }
+
+  sendSms(content) {
+      this.modalService.open(content, { centered: true });
+  }
+
+  sendFax(content) {
+      this.modalService.open(content, { centered: true });
   }
 
   navigateToHome() {

@@ -55,7 +55,7 @@
     padding: 15px;
     left: auto !important;
     right: 0px;
-    width: 310px;
+    width: 244px;
 }
 
 .contact-nunbers {
@@ -115,4 +115,10 @@
     margin: 0;
     width: 25px;
     margin-left: 5px;
+}
+
+.file-input{
+  width: 92%;
+  margin-right: 10px;
+  margin-left: 18px;
 }

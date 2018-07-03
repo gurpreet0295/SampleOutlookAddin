@@ -1,16 +1,19 @@
 import { Injectable } from "@angular/core";
 import { String, StringBuilder } from 'typescript-string-operations';
 import { forEach } from "@angular/router/src/utils/collection";
+import { Observable } from "rxjs/Observable";
 
 declare let Office: any;
 @Injectable()
 export class OutlookService {
-  constructor() {}
 
-  public getPhoneNumbers(dialerLength:string): any[] {
-    let numbers: any[];
-    numbers = new Array<any>();
-    try {
+  constructor() {
+  }
+
+  public getPhoneNumbers(dialerLength: string): Observable<any[]> {
+    var observable = Observable.create(function(observer){
+      let numbers: any[];
+      numbers = new Array<any>();
       /*
        *This method only returns number contating '-'. 
         let currentMail: any = Office.cast.item.toItemRead(Office.context.mailbox.item);
@@ -19,11 +22,9 @@ export class OutlookService {
 
       Office.context.mailbox.item.body.getAsync(
         "text",
-        { asyncContext: "This is passed to the callback" },
         function callback(result) {
           let lines = result.value.split("\n");
-          let regExp = new RegExp(String.Format("([\+]?[0-9\-\(\)]{7,\{0\}})", dialerLength));
-          console.log(regExp);
+          let regExp = new RegExp(String.Format("[\\(|\\d|\\+][0-9\\(\\)\\/\\+ \\-\\.]{6,\{0\}}[0-9]", dialerLength), 'g');
           lines && lines.forEach((line) => {
             let numbersFound = line.match(regExp);
             if (Array.isArray(numbersFound)) {
@@ -36,15 +37,11 @@ export class OutlookService {
               numbersFound && numbers.push(numbersFound);
             }
           });
-          console.log(numbers);
+          observer.next(numbers);
         }
       );
-    }
-    catch (error) {
-      console.log("in office service exception");
-      console.log(error);
-    }
-    return numbers;
+    });
+    return observable;
   }
 
   public openNewAppointmentWindow(meetingTopic: string, meetingStartTime: any, meetingEndTime: any, isRecurring: boolean, meetingText: string) {

@@ -18,6 +18,7 @@ import { MeetingManagerComponent } from './components/meeting-manager/meeting-ma
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { MeetingService } from './services/meeting.service';
 import { HomeService } from './services/home.service';
+import { DataService } from './services/data-sharing.service';
 
 const appRoutes: Routes = [
   { path: 'login', component: LoginFormComponent },
@@ -41,7 +42,7 @@ const appRoutes: Routes = [
     NgbModule.forRoot(),
     RouterModule.forRoot(appRoutes)
   ],
-  providers: [LoginService, SkySwitchAPIService, OutlookService, DialerService, Common, MeetingService, HomeService, { provide: LocationStrategy, useClass: HashLocationStrategy }],
+  providers: [LoginService, SkySwitchAPIService, OutlookService, DialerService, Common, MeetingService, HomeService, DataService, { provide: LocationStrategy, useClass: HashLocationStrategy }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

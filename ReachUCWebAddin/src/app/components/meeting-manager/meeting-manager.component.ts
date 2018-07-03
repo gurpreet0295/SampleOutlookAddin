@@ -30,7 +30,7 @@ export class MeetingManagerComponent implements OnInit {
   constructor(private outlookService: OutlookService, public meetingService: MeetingService, private router: Router) {
     this.meetingTopic = "";
     this.meetingPassword = "";
-    this.meetingType = 1;
+    this.meetingType = 0;
     this.isRecurring = false;
     this.meetingDate = { year: now.getFullYear(), month: now.getMonth() + 1, day: now.getDate() };
     this.startTime = { hour: now.getHours() + 1, minute: 0o0 };
@@ -47,7 +47,7 @@ export class MeetingManagerComponent implements OnInit {
   }
 
   formatDate() {
-    return new Date(this.meetingDate.year, this.meetingDate.month, this.meetingDate.day);
+    return new Date(this.meetingDate.year, this.meetingDate.month - 1, this.meetingDate.day);
   }
 
   setMeetingDetails() {

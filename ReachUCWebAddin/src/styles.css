@@ -31,7 +31,7 @@
     margin: 0px;
 }
 
-.login-form img {
+.login-form img.logo {
     width: 100px;
     margin-bottom: 30px;
 }

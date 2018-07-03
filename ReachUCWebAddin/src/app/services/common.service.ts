@@ -1,9 +1,14 @@
 import { Injectable } from "@angular/core";
 import { String } from "typescript-string-operations";
+import { Observable } from "rxjs/Observable";
+import { BehaviorSubject } from "rxjs";
 
 @Injectable()
 export class Common {
-
+  telkoToken: string;
+  telkoRefreshToken: string;
+  telkoTokenExpireTime: string;
+  
   userName: string;
   password: string;
   user: string;
@@ -11,7 +16,6 @@ export class Common {
   skyToken: string;
   areaCode: string;
   localStorage: Storage;
-  isGettingResponse: boolean = false;
   meetingText:string = `1. Please join my MeetingManager session on {2}.
 Link: {0}
 
@@ -24,6 +28,13 @@ Phone Number: {1}
 
 TIPS: Avoid wireless connections since they may cause disconnections and slow down screen updates.
 A headset is recommended when using your microphone and speakers(VoIP).`;
+
+  private dataSource = new BehaviorSubject<boolean>(true);
+  isGettingResponse = this.dataSource.asObservable();
+
+  changeLoaderStatus(show: boolean) {
+    this.dataSource.next(show);
+  }
 
   constructor() {
     this.localStorage = window.localStorage;
@@ -53,12 +64,22 @@ A headset is recommended when using your microphone and speakers(VoIP).`;
     this.localStorage.setItem('areaCode', areaCode);
   }
 
+  storeOuthTokenDetials(accessToken: string, refreshToken: string, expireTime: string) {
+    this.telkoToken = accessToken;
+    this.localStorage.setItem('telkoToken', accessToken);
+    this.telkoRefreshToken = refreshToken;
+    this.localStorage.setItem('telkoRefreshToken', refreshToken);
+    this.telkoTokenExpireTime = expireTime;
+    this.localStorage.setItem('telkoTokenExpireTime', expireTime);
+  }
+
+  setUserProperties(countryCode: string, prefix: string, dialerLength: string) {
+    this.localStorage.setItem('countryCode', countryCode);
+    this.localStorage.setItem('prefix', prefix);
+    this.localStorage.setItem('dialerLength', dialerLength);
+  }
+
   clearLocalStorage() {
-    this.localStorage.setItem('userName', String.Empty);
-    this.localStorage.setItem('password', String.Empty);
-    this.localStorage.setItem('skyToken', String.Empty);
-    this.localStorage.setItem('domain', String.Empty);
-    this.localStorage.setItem('user', String.Empty);
-    this.localStorage.setItem('areaCode', String.Empty);
+    this.localStorage.clear();
   }
 }

@@ -31,11 +31,11 @@
             </div>
             <div class="col-12">
               <select name="type" class="meetingType form-control" [(ngModel)]="meetingType">
-                <option value="1">Interactive Meeting</option>
-                <option value="2">HD Video Conference</option>
+                <option value="0">Interactive Meeting</option>
+                <option value="1">Remote Support</option>
+                <option value="2">Remote Access to this Computer</option>
                 <option value="3">Webinar</option>
-                <option value="4">Remote Support</option>
-                <option value="5">Remote Access to this Computer</option>
+                <option value="4">HD Video Conference</option>
               </select>
             </div>
           </div>
@@ -98,7 +98,7 @@
 
 <div class="login-form" [hidden]="meetingService.showMeetingDetails">
   <div class="login-form-inner homepage">
-    <a class="back-button" routerLink="/home"><img src="https://localhost:442/outlook-addin/assets/back.png" alt="" /> Back</a>
+    <a class="back-button" routerLink="/home"><img src="/assets/back.png" alt="" /> Back</a>
     <div class="show-list">
       <ul class="list-group">
         <li class="list-group-item"><label class="text-success text-center">Congratulations! Meeting is created.</label></li>
@@ -123,7 +123,7 @@
     </div>
     <div class="form-group">
       <button class="btn btn-primary btn-block" (click)="sendInvite()" type="button">
-        <span class="ms-Button-label-new">Send Invite</span>
+        <span class="ms-Button-label-new">Add to Calendar</span>
       </button>
     </div>
 
