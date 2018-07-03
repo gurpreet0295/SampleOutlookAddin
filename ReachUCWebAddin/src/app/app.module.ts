@@ -13,7 +13,7 @@ import { APP_BASE_HREF, LocationStrategy, HashLocationStrategy } from '@angular/
 import { OutlookService } from './services/outlook.service';
 import { DialerPadComponent } from './components/dialer-pad/dialer-pad.component';
 import { Common } from './services/common.service';
-import { DialerService } from './services/dialer.service';
+import { CommunicationService } from './services/communication.service';
 import { MeetingManagerComponent } from './components/meeting-manager/meeting-manager.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { MeetingService } from './services/meeting.service';
@@ -42,7 +42,7 @@ const appRoutes: Routes = [
     NgbModule.forRoot(),
     RouterModule.forRoot(appRoutes)
   ],
-  providers: [LoginService, SkySwitchAPIService, OutlookService, DialerService, Common, MeetingService, HomeService, DataService, { provide: LocationStrategy, useClass: HashLocationStrategy }],
+  providers: [LoginService, SkySwitchAPIService, OutlookService, CommunicationService, Common, MeetingService, HomeService, DataService, { provide: LocationStrategy, useClass: HashLocationStrategy }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

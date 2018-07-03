@@ -5,11 +5,20 @@
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
-    <div class="modal-body">
-        <textarea  rows="4"></textarea>
+    <div class="modal-body form-group">
+        <div class="row">
+            <div class="col-4">
+                <label>Phone:</label>
+            </div>
+            <div class="col-8">
+                <input name="number" type="tel" value={{phoneNumber}} class="form-control" />
+            </div>
+        </div>
+        <textarea rows="4" class="form-control" [(ngModel)]="smsMessage"></textarea>
+        <div class="error-mgs" *ngIf="!smsMessage.trim()" style="margin-bottom:12px;">Please enter valid message</div>
     </div>
     <div class="modal-footer">
-        <button type="button" class="btn btn-light" >Send Sms</button>
+        <button type="button" class="btn btn-light" (click)="sendSms()">Send Sms</button>
     </div>
 </ng-template>
 
@@ -21,118 +30,147 @@
         </button>
     </div>
     <div class="modal-body">
-        <input name="file" class="file-input" type="file"/>
-        <select>
-            <option>0000000000</option>
-        </select>
+        <div class="form-group">
+            <div class="row">
+                <div class="col-6">
+                    <label>Selected File:</label>
+                </div>
+                <div class="col-12">
+                    <input name="file" class="file-input" type="file" (change)="handleFileInput($event.target.files)" />
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="row">
+                <div class="col-5">
+                    <label>Phone:</label>
+                </div>
+                <div class="col-7">
+                    <input name="number" type="tel" value={{phoneNumber}} class="form-control" />
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="row">
+                <div class="col-5">
+                    <label>Caller Id:</label>
+                </div>
+                <div class="col-7">
+                    <select name="caller" [(ngModel)]="callerId" class="form-control">
+                        <option *ngFor="let id of callerIds" value={{id}}>{{id}}</option>
+                    </select>
+                </div>
+            </div>
+        </div>
     </div>
     <div class="modal-footer">
-        <button type="button" class="btn btn-light">Send Fax</button>
+        <button type="button" class="btn btn-light" (click)="sendFax()">Send Fax</button>
     </div>
 </ng-template>
 
+{{phoneNumber}}
 <div class="login-form">
-  <div class="login-form-inner">
-    <a class="back-button" routerLink="/home"><img src="/assets/back.png" alt="" /> Back</a>
-    <div class="phone">
-      <div class="">
-        <div class="">
-          <input type="tel" name="dialer" id="telNumber" class="form-control tel" [(ngModel)]="phoneNumber" />
-          <div class="number-pad">
-            <div class="span4">
-              <div class="num">
-                <div class="txt">
-                  1
+    <div class="login-form-inner">
+        <a class="back-button" routerLink="/home"><img src="https://localhost:442/outlook-addin/assets/back.png" alt="" /> Back</a>
+        <div class="phone">
+            <div class="">
+                <div class="">
+                    <input type="tel" name="dialer" id="telNumber" class="form-control tel" [(value)]="phoneNumber" (change)="onChange($event)"/>
+                    <div class="number-pad">
+                        <div class="span4">
+                            <div class="num">
+                                <div class="txt">
+                                    1
+                                </div>
+                            </div>
+                        </div>
+                        <div class="span4">
+                            <div class="num">
+                                <div class="txt">
+                                    2
+                                </div>
+                            </div>
+                        </div>
+                        <div class="span4">
+                            <div class="num">
+                                <div class="txt">
+                                    3
+                                </div>
+                            </div>
+                        </div>
+                        <div class="span4">
+                            <div class="num">
+                                <div class="txt">
+                                    4
+                                </div>
+                            </div>
+                        </div>
+                        <div class="span4">
+                            <div class="num">
+                                <div class="txt">
+                                    5
+                                </div>
+                            </div>
+                        </div>
+                        <div class="span4">
+                            <div class="num">
+                                <div class="txt">
+                                    6
+                                </div>
+                            </div>
+                        </div>
+                        <div class="span4">
+                            <div class="num">
+                                <div class="txt">
+                                    7
+                                </div>
+                            </div>
+                        </div>
+                        <div class="span4">
+                            <div class="num">
+                                <div class="txt">
+                                    8
+                                </div>
+                            </div>
+                        </div>
+                        <div class="span4">
+                            <div class="num">
+                                <div class="txt">
+                                    9
+                                </div>
+                            </div>
+                        </div>
+                        <div class="span4">
+                            <div class="num">
+                                <div class="txt">
+                                    *
+                                </div>
+                            </div>
+                        </div>
+                        <div class="span4">
+                            <div class="num">
+                                <div class="txt">
+                                    0
+                                </div>
+                            </div>
+                        </div>
+                        <div class="span4">
+                            <div class="num">
+                                <div class="txt">
+                                    #
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="form-group">
+                        <button class="round-button" (click)="openSmsModal(smsContent)">SMS</button>
+                        <button class="round-button" (click)="makeCall()">CALL</button>
+                        <button class="round-button" (click)="openFaxModal(faxContent)">FAX</button>
+                    </div>
                 </div>
-              </div>
             </div>
-            <div class="span4">
-              <div class="num">
-                <div class="txt">
-                  2
-                </div>
-              </div>
-            </div>
-            <div class="span4">
-              <div class="num">
-                <div class="txt">
-                  3
-                </div>
-              </div>
-            </div>
-            <div class="span4">
-              <div class="num">
-                <div class="txt">
-                  4
-                </div>
-              </div>
-            </div>
-            <div class="span4">
-              <div class="num">
-                <div class="txt">
-                  5
-                </div>
-              </div>
-            </div>
-            <div class="span4">
-              <div class="num">
-                <div class="txt">
-                  6
-                </div>
-              </div>
-            </div>
-            <div class="span4">
-              <div class="num">
-                <div class="txt">
-                  7
-                </div>
-              </div>
-            </div>
-            <div class="span4">
-              <div class="num">
-                <div class="txt">
-                  8
-                </div>
-              </div>
-            </div>
-            <div class="span4">
-              <div class="num">
-                <div class="txt">
-                  9
-                </div>
-              </div>
-            </div>
-            <div class="span4">
-              <div class="num">
-                <div class="txt">
-                  *
-                </div>
-              </div>
-            </div>
-            <div class="span4">
-              <div class="num">
-                <div class="txt">
-                  0
-                </div>
-              </div>
-            </div>
-            <div class="span4">
-              <div class="num">
-                <div class="txt">
-                  #
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="clearfix"></div>
-          <div class="form-group">
-              <button class="round-button" (click)="sendSms(smsContent)">SMS</button>
-              <button class="round-button" (click)="makeCall()">CALL</button>
-              <button class="round-button" (click)="sendFax(faxContent)">FAX</button>
-          </div>
         </div>
-      </div>
-    </div>
 
-  </div>
+    </div>
 </div>

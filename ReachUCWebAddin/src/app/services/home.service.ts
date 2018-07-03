@@ -13,7 +13,6 @@ export class HomeService {
  
   phoneNumbers: string[];
   callerIds: string[];
-  billingIdentifier: string;
   countryCode: string;
   prefix: string;
   dialerLength: string;
@@ -48,49 +47,5 @@ export class HomeService {
       translatedPhoneNumbers.push(number);
     });
     return translatedPhoneNumbers;
-  }
-
-  getCallerIdsList() {
-    if (this.callerIds && this.callerIds.length > 0) {
-      return Observable.of(this.callerIds);
-    }
-    return this.apiService.getCallerIdsList("numberList")
-      .map(response => {
-        let { data } = { data: [] } = response.json();
-        let callerIds = data.map(d => d.number)
-        return callerIds;
-      })
-      .do(ids => this.callerIds = ids)
-  }
-
-  sendFax(appliedNumber: string, file: any, callerId: any) {
-    this.billingIdentifier = this.commonService.user + "@" + this.commonService.domain;
-    this.commonService.changeLoaderStatus(true);
-    this.apiService.sendFax(appliedNumber, file, callerId, "fax", this.billingIdentifier)
-      .map(response => response.json())
-      .subscribe(
-      (response) => {
-        this.commonService.changeLoaderStatus(false);
-        console.log(response);
-      },
-      (error) => {
-        this.commonService.changeLoaderStatus(false);
-        console.log(error);
-      })
-  }
-
-  sendSms(destinationNumber: string, message: string) {
-    this.commonService.changeLoaderStatus(true);
-    this.apiService.sendSms(destinationNumber, message)
-      .map(response => response.json())
-      .subscribe(
-      (response) => {
-        console.log(response);
-        this.commonService.changeLoaderStatus(false);
-      },
-      (error) => {
-        this.commonService.changeLoaderStatus(false);
-        console.log(error);
-      })
   }
 }

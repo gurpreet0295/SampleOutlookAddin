@@ -5,7 +5,7 @@ import 'rxjs/Rx';
 import { Router } from '@angular/router';
 import { String, StringBuilder } from 'typescript-string-operations';
 import { Common } from '../../services/common.service';
-import { DialerService } from '../../services/dialer.service';
+import { CommunicationService } from '../../services/communication.service';
 import { HomeService } from '../../services/home.service';
 import { DataService } from "../../services/data-sharing.service";
 import { OnDestroy } from '@angular/core/src/metadata/lifecycle_hooks';
@@ -41,7 +41,7 @@ export class HomePageComponent implements OnInit, OnDestroy {
   isSmsAllowed: boolean = false;
   subscription: Subscription;
 
-  constructor(private outlookService: OutlookService, private commonService: Common, private dialerService: DialerService, private homeService: HomeService, private route: Router, private dataService: DataService) {
+  constructor(private outlookService: OutlookService, private commonService: Common, private communicationService: CommunicationService, private homeService: HomeService, private route: Router, private dataService: DataService) {
     this.domain = commonService.domain;
     this.user = commonService.user;
     this.areaCode = commonService.areaCode;
@@ -79,7 +79,7 @@ export class HomePageComponent implements OnInit, OnDestroy {
   }
    
   getCallerIds() {
-    this.homeService.getCallerIdsList()
+    this.communicationService.getCallerIdsList()
       .subscribe(
       response => {
         if (Array.isArray(response) && response.length > 0) {
@@ -108,7 +108,7 @@ export class HomePageComponent implements OnInit, OnDestroy {
   }
 
   makeCall(number: string) {
-    this.dialerService.makeCall(number);
+      this.communicationService.makeCall(number);
   }
 
   openDialer() {
@@ -124,13 +124,6 @@ export class HomePageComponent implements OnInit, OnDestroy {
     this.route.navigateByUrl('login');
   }
 
-  sendSms(destinationNumber: string) {
-    if (!String.IsNullOrWhiteSpace(this.smsMessage)) {
-      this.homeService.sendSms(destinationNumber, this.smsMessage)
-    }
-    this.smsMessage = String.Empty;
-  }
-
   stopPropogation(event: any) {
     event.stopPropagation();
   }
@@ -142,9 +135,16 @@ export class HomePageComponent implements OnInit, OnDestroy {
     }
   }
 
+  sendSms(destinationNumber: string) {
+      if (!String.IsNullOrWhiteSpace(this.smsMessage)) {
+          this.communicationService.sendSms(destinationNumber, this.smsMessage)
+      }
+      this.smsMessage = String.Empty;
+  }
+
   sendFax(event: any) {
     let toPhoneNumber = event.target[1].value || "";
-    this.homeService.sendFax(toPhoneNumber, this.file, this.callerId);
+    this.communicationService.sendFax(toPhoneNumber, this.file, this.callerId);
   }
 
 }
