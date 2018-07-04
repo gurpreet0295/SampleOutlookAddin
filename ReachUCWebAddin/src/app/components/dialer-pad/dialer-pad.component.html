@@ -5,8 +5,8 @@
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
-    <div class="modal-body form-group">
-        <div class="row">
+    <div class="modal-body">
+        <div class="row form-group">
             <div class="col-4">
                 <label>Phone:</label>
             </div>
@@ -14,11 +14,13 @@
                 <input name="number" type="tel" value={{phoneNumber}} class="form-control" />
             </div>
         </div>
-        <textarea rows="4" class="form-control" [(ngModel)]="smsMessage"></textarea>
-        <div class="error-mgs" *ngIf="!smsMessage.trim()" style="margin-bottom:12px;">Please enter valid message</div>
+        <div class="">
+            <textarea rows="4" class="form-control height100" [(ngModel)]="smsMessage"></textarea>
+        </div>
+        <div class="error-mgs" *ngIf="!smsMessage.trim()">Please enter valid message</div>
     </div>
     <div class="modal-footer">
-        <button type="button" class="btn btn-light" (click)="sendSms()">Send Sms</button>
+        <button type="button" class="btn btn-primary" (click)="sendSms()">Send Sms</button>
     </div>
 </ng-template>
 
@@ -32,11 +34,13 @@
     <div class="modal-body">
         <div class="form-group">
             <div class="row">
-                <div class="col-6">
+                <div class="col-12">
                     <label>Selected File:</label>
                 </div>
                 <div class="col-12">
-                    <input name="file" class="file-input" type="file" (change)="handleFileInput($event.target.files)" />
+                    <div class="over-hidden">
+                        <input name="file" class="file-input" type="file" (change)="handleFileInput($event.target.files)" />
+                    </div>
                 </div>
             </div>
         </div>
@@ -64,7 +68,7 @@
         </div>
     </div>
     <div class="modal-footer">
-        <button type="button" class="btn btn-light" (click)="sendFax()">Send Fax</button>
+        <button type="button" class="btn btn-primary" (click)="sendFax()">Send Fax</button>
     </div>
 </ng-template>
 
@@ -75,7 +79,7 @@
         <div class="phone">
             <div class="">
                 <div class="">
-                    <input type="tel" name="dialer" id="telNumber" class="form-control tel" [(value)]="phoneNumber" (change)="onChange($event)"/>
+                    <input type="tel" name="dialer" id="telNumber" class="form-control tel" [(value)]="phoneNumber" (change)="onChange($event)" />
                     <div class="number-pad">
                         <div class="span4">
                             <div class="num">
@@ -164,9 +168,21 @@
                     </div>
                     <div class="clearfix"></div>
                     <div class="form-group">
-                        <button class="round-button" (click)="openSmsModal(smsContent)">SMS</button>
-                        <button class="round-button" (click)="makeCall()">CALL</button>
-                        <button class="round-button" (click)="openFaxModal(faxContent)">FAX</button>
+                        <div class="callaction">
+                            <button class="round-button" (click)="openSmsModal(smsContent)">
+                                <img src="/assets/sms-icon.png" alt="sms">
+                            </button>
+                        </div>
+                        <div class="callaction">
+                            <button class="round-button" (click)="makeCall()">
+                                <img src="/assets/phone-icon.png" alt="call">
+                            </button>
+                        </div>
+                        <div class="callaction">
+                            <button class="round-button" (click)="openFaxModal(faxContent)">
+                                    <img src="/assets/fax-icon.png" alt="fax">
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>

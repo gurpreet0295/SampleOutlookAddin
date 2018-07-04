@@ -1,161 +1,181 @@
 <div class="login-form">
-  <div class="login-form-inner homepage">
-    <div ngbDropdown class="custom-dropdown">
-      <button class="btn btn-primary btn-block " id="dropdownBasic1" ngbDropdownToggle>
+    <div class="login-form-inner homepage">
+        <div ngbDropdown class="custom-dropdown">
+            <button class="btn btn-primary btn-block " id="dropdownBasic1" ngbDropdownToggle>
         <span></span>
         <span></span>
         <span></span>
       </button>
-      <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-        <button class="dropdown-item" (click)="openMeetingManager()" type="button">
+            <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+                <button class="dropdown-item" (click)="openMeetingManager()" type="button">
           <span class="ms-Button-label-new">Meeting Manager</span>
         </button>
-        <button class="dropdown-item" (click)="openDialer()" type="button">
+                <button class="dropdown-item" (click)="openDialer()" type="button">
           <span class="ms-Button-label-new">Keypad</span>
         </button>
-        <a class="dropdown-item" target="_blank" href="https://www.reachuc.com">
+                <a class="dropdown-item" target="_blank" href="https://www.reachuc.com">
           Open ReachUC
         </a>
-        <button class="dropdown-item" (click)="logout()" type="button">
+                <button class="dropdown-item" (click)="logout()" type="button">
           <span class="ms-Button-label-new">Logout</span>
         </button>
-      </div>
-    </div>
+            </div>
+        </div>
 
-    <div class="clearfix"></div>
+        <div class="clearfix"></div>
 
-    <div class="show-list">
-      <ul class="list-group">
-        <li class="list-group-item active"> Phone Numbers</li>
-        <li class="list-group-item" *ngFor="let num of phoneNumbers" style="height: 50px;" >
-          <div class="row">
-            <div class="col-sm-12">
-              <a href="javascript:void(0)" class="contact-nunbers" (click)="makeCall(num)">{{num}}</a>
-              <div class="right-action-button">
-                <div ngbDropdown class="custom-dropdown new-call-dropdown">
-                  <button title="sms" type="button" [disabled]="!isSmsAllowed" class="btn btn-action" ngbDropdownToggle>
+        <div class="show-list">
+            <ul class="list-group list-dialer-info">
+                <li class="list-group-item active"> Phone Numbers</li>
+                <li class="list-group-item" *ngFor="let num of phoneNumbers" style="height: 50px;">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <a href="javascript:void(0)" class="contact-nunbers" (click)="makeCall(num)">{{num}}</a>
+                            <div class="right-action-button">
+                                <div ngbDropdown class="custom-dropdown new-call-dropdown new-sms-dropdown">
+                                    <button title="sms" type="button" [disabled]="!isSmsAllowed" class="btn btn-action" ngbDropdownToggle>
                     <img src="assets/sms.png" alt="">
                   </button>
-                  <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-                    <div class="sms-container">
-                      <div class="form-group" (click)="stopPropogation($event)">
-                        <textarea rows="4" class="form-control" [(ngModel)]="smsMessage"></textarea>
-                      </div>
-                      <div class="error-mgs" *ngIf="!smsMessage.trim()" style="margin-bottom:12px;">Please enter valid message</div>
-                      <button type="button" class="btn btn-primary btn-block" (click)="sendSms(num)">Send SMS</button>
-                    </div>
-                  </div>
-                </div>
-                <div ngbDropdown class="custom-dropdown new-call-dropdown ">
-                  <button title="fax" type="button" [disabled]="!isFaxAllowed" class="btn btn-action" ngbDropdownToggle>
+                                    <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+                                        <div class="sms-container">
+                                            <div class="form-group" (click)="stopPropogation($event)">
+                                                <textarea rows="4" class="form-control" [(ngModel)]="smsMessage"></textarea>
+                                            </div>
+                                            <div class="error-mgs" *ngIf="!smsMessage.trim()" style="margin-bottom:12px;">Please enter valid message</div>
+                                            <button type="button" class="btn btn-primary btn-block" (click)="sendSms(num)">Send SMS</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div ngbDropdown class="custom-dropdown new-call-dropdown ">
+                                    <button title="fax" type="button" [disabled]="!isFaxAllowed" class="btn btn-action" ngbDropdownToggle>
                     <img src="assets/sendfax.png " alt="">
                   </button>
-                  <div ngbDropdownMenu aria-labelledby="dropdownBasic1 ">
-                    <form (ngSubmit)="sendFax($event)" class="fax-container">
-                      <div class="form-group" (click)="stopPropogation($event)">
-                        <div class="row">
-                          <div class="col-6">
-                            <label>Selected File:</label>
-                          </div>
-                          <div class="col-12">
-                            <input name="file" class="file-input" type="file" (change)="handleFileInput($event.target.files)" />
-                            <div class="selectfiles">
+                                    <div ngbDropdownMenu aria-labelledby="dropdownBasic1 ">
+                                        <form (ngSubmit)="sendFax($event)" class="fax-container">
+                                            <div class="form-group" (click)="stopPropogation($event)">
+                                                <div class="row">
+                                                    <div class="col-12">
+                                                        <label>Selected File:</label>
+                                                    </div>
+                                                    <div class="col-12">
+                                                        <div class="over-hidden">
+                                                            <input name="file" class="file-input" type="file" (change)="handleFileInput($event.target.files)" />
+                                                        </div>
+                                                        <div class="selectfiles">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group" (click)="stopPropogation($event)">
+                                                <div class="row">
+                                                    <div class="col-5 pr-0">
+                                                        <label>Phone:</label>
+                                                    </div>
+                                                    <div class="col-7">
+                                                        <input name="number" type="tel" [value]="num" class="form-control" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group" (click)="stopPropogation($event)">
+                                                <div class="row">
+                                                    <div class="col-5 pr-0">
+                                                        <label>Caller Id:</label>
+                                                    </div>
+                                                    <div class="col-7">
+                                                        <select name="caller" [(ngModel)]="callerId" class="form-control">
+                                                          <option *ngFor="let id of callerIds" value={{id}}>{{id}}</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col">
+                                                    <button name="send" type="submit" class="btn btn-primary btn-block">Send</button>
+                                                </div>
+                                                <div class="col">
+                                                    <button name="close" type="button" class="btn btn-primary btn-block">Close</button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
                             </div>
-                          </div>
                         </div>
-                      </div>
-                      <div class="form-group" (click)="stopPropogation($event)">
-                        <div class="row">
-                          <div class="col-5">
-                            <label>Phone:</label>
-                          </div>
-                          <div class="col-7">
-                            <input name="number" type="tel" [value]="num" class="form-control" />
-                          </div>
-                        </div>
-                      </div>
-                      <div class="form-group" (click)="stopPropogation($event)">
-                        <div class="row">
-                          <div class="col-5">
-                            <label>Caller Id:</label>
-                          </div>
-                          <div class="col-7">
-                            <select name="caller" [(ngModel)]="callerId" class="form-control">
-                              <option *ngFor="let id of callerIds" value={{id}}>{{id}}</option>
-                            </select>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="row">
-                        <div class="col">
-                          <button name="send" type="submit" class="btn btn-primary btn-block">Send</button>
-                        </div>
-                        <div class="col">
-                          <button name="close" type="button" class="btn btn-primary btn-block">Close</button>
-                        </div>
-                      </div>
-                    </form>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </li>
-      </ul>
-    </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
 
-    <div class="show-list custom-collapse-heading">
-      <button type="button" class="btn btn-primary btn-block" (click)="isPropertiesCollapsed = !isPropertiesCollapsed" [attr.aria-expanded]="!isPropertiesCollapsed" aria-controls="collapseProperties">
+        <div class="show-list custom-collapse-heading">
+            <button type="button" class="btn btn-primary btn-block" (click)="isPropertiesCollapsed = !isPropertiesCollapsed" [attr.aria-expanded]="!isPropertiesCollapsed" aria-controls="collapseProperties">
         Properties <img src="assets/down-arrow.png" alt="">
       </button>
-      <div id="collapseProperties" [ngbCollapse]="isPropertiesCollapsed">
-        <ul class="list-group">
-          <li class="list-group-item">
-            <div class="row">
-              <div class="col">
-                <label>Country Code</label>
-              </div>
-              <div class="col">
-                <input class="form-control" name="contry code" placeholder="Contry Code" [(ngModel)]="countryCode" (change)="getNumbersFromMail()">
-              </div>
+            <div id="collapseProperties" [ngbCollapse]="isPropertiesCollapsed">
+                <ul class="list-group list-dialer-info">
+                    <li class="list-group-item">
+                        <div class="row">
+                            <div class="col-5 pr-0">
+                                <label>Country Code</label>
+                            </div>
+                            <div class="col-7">
+                                <input class="form-control" name="contry code" placeholder="Contry Code" [(ngModel)]="countryCode" (change)="getNumbersFromMail()">
+                            </div>
+                        </div>
+                    </li>
+                    <li class="list-group-item">
+                        <div class="row">
+                            <div class="col-5 pr-0">
+                                <label>Int. Prefix</label>
+                            </div>
+                            <div class="col-7">
+                                <input class="form-control" name="Int. Prefix" placeholder="Int. Prefix" [(ngModel)]="prefix" (change)="getNumbersFromMail()">
+                            </div>
+                        </div>
+                    </li>
+                    <li class="list-group-item">
+                        <div class="row">
+                            <div class="col-5 pr-0">
+                                <label>Dial Length</label>
+                            </div>
+                            <div class="col-7">
+                                <input class="form-control" name="Dial Length" placeholder="11" [(ngModel)]="dialerLength" (change)="getNumbersFromMail()">
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+                <ul class="list-group show-list--domain">
+                    <li class="list-group-item">
+                        <div class="row">
+                            <div class="col-4 pr-0">
+                                <p>Domain</p>
+                            </div>
+                            <div class="col-8">
+                                {{ domain }}
+                            </div>
+                        </div>
+                    </li>
+                    <li class="list-group-item">
+                        <div class="row">
+                            <div class="col-4 pr-0">
+                                <p>User</p>
+                            </div>
+                            <div class="col-8">
+                                {{ user }}
+                            </div>
+                        </div>
+                    </li>
+                    <li class="list-group-item">
+                        <div class="row">
+                            <div class="col-4 pr-0">
+                                <p>Area</p>
+                            </div>
+                            <div class="col-8">
+                                {{ areaCode }}
+                            </div>
+                        </div>
+                    </li>
+                </ul>
             </div>
-          </li>
-          <li class="list-group-item">
-            <div class="row">
-              <div class="col">
-                <label>Int. Prefix</label>
-              </div>
-              <div class="col">
-                <input class="form-control" name="Int. Prefix" placeholder="Int. Prefix" [(ngModel)]="prefix" (change)="getNumbersFromMail()">
-              </div>
-            </div>
-          </li>
-          <li class="list-group-item">
-            <div class="row">
-              <div class="col">
-                <label>Dial Length</label>
-              </div>
-              <div class="col">
-                <input class="form-control" name="Dial Length" placeholder="11" [(ngModel)]="dialerLength" (change)="getNumbersFromMail()">
-              </div>
-            </div>
-          </li>
-        </ul>
-        <ul class="list-group">
-            <li class="list-group-item">
-                <p>Domain</p>
-                {{ domain }}
-            </li>
-            <li class="list-group-item">
-                <p>User</p>
-                {{ user }}
-            </li>
-            <li class="list-group-item">
-                <p>Area</p>
-                {{ areaCode }}
-            </li>
-        </ul>
-      </div>
+        </div>
     </div>
-  </div>
 </div>

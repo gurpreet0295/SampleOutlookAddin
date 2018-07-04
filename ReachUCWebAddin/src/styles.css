@@ -49,6 +49,10 @@
     -webki-box-shadow: none;
 }
 
+.form-control.height100 {
+    height: 100px;
+}
+
 .btn.focus,
 .btn:focus {
     box-shadow: none;
@@ -155,4 +159,45 @@
     display: block;
     position: fixed;
     z-index: 9;
+}
+
+
+/* modal css */
+
+.modal-header {
+    padding: 10px 16px;
+    background-color: #359bb4;
+}
+
+.modal-header .modal-title {
+    color: #fff;
+    font-size: 18px;
+    line-height: 23px;
+}
+
+.modal-header .close {
+    color: #fff;
+    opacity: 1;
+    line-height: 17px;
+    text-shadow: none;
+    -webkit-text-shadow: none;
+}
+
+.modal-footer {
+    padding: 10px 16px;
+}
+
+.modal-footer .btn {
+    font-weight: 400 !important;
+    letter-spacing: normal !important;
+    padding: 5px 12px;
+}
+
+select.form-control {
+    padding: 0px 7px;
+}
+
+.over-hidden {
+    width: 100%;
+    overflow: hidden;
 }

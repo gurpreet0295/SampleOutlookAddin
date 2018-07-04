@@ -59,8 +59,8 @@ export class HomePageComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.getNumbersFromMail();
-    //this.phoneNumbers = ["988776654", "8776655443", "6328100976"];
+    //this.getNumbersFromMail();
+    this.phoneNumbers = ["988776654", "8776655443", "6328100976"];
     this.getPermissions();
     this.getCallerIds();
   }
