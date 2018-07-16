@@ -1,0 +1,161 @@
+.show-list {
+    margin-bottom: 30px;
+}
+
+.show-list label {
+    margin-bottom: 0px;
+    padding-top: 7px;
+    display: block;
+    text-align: right;
+}
+
+.show-list .list-dialer-info label {
+    text-align: left;
+    padding-top: 4px;
+}
+
+.show-list .list-group-item.active {
+    background-color: #76c8dc;
+    border-color: #76c8dc;
+}
+
+.show-list .list-group-item:first-child {
+    border-radius: 0px;
+    -webkit-border-radius: 0px;
+    font-size: 20px;
+}
+
+.show-list p {
+    margin-bottom: 0px;
+    font-weight: bold;
+}
+
+.show-list .show-list--domain p {
+    font-weight: 400;
+    text-align: left;
+}
+
+.list-group-item {
+    padding: .5rem 1rem;
+}
+
+.right-action-button .new-call-dropdown {
+    display: inline-block;
+}
+
+.new-call-dropdown .btn-action {
+    padding: 2px 4px 5px;
+    background: transparent;
+    border: 1px solid transparent;
+    border-bottom: none;
+    border-radius: 5px 5px 0 0;
+}
+
+.new-call-dropdown.show .btn-action {
+    border-color: #76c8dc;
+}
+
+.new-call-dropdown .btn-action img {
+    width: auto;
+    margin: 0px;
+}
+
+.new-call-dropdown .dropdown-menu {
+    position: absolute;
+    padding: 15px;
+    left: auto !important;
+    right: 0px;
+    width: 273px;
+}
+
+.new-call-dropdown.new-sms-dropdown .dropdown-menu {
+    width: 231px;
+}
+
+.new-call-dropdown.new-sms-dropdown2 .dropdown-menu {
+    width: 212px;
+}
+
+.contact-nunbers {
+    float: left;
+}
+
+.right-action-button {
+    float: right;
+}
+
+.fax-container .form-group {
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+}
+
+.sms-container textarea.form-control {
+    height: 100px;
+    resize: none;
+}
+
+.selectfiles {
+    position: relative;
+    width: 100%;
+}
+
+.selectfiles .selecttext {
+    line-height: 33px;
+    padding-top: 0px;
+    padding-bottom: 0;
+    display: block;
+}
+
+.selectfiles input[type='file'] {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    opacity: 0;
+    cursor: pointer;
+    z-index: 10;
+}
+
+.custom-collapse-heading .btn {
+    background-color: #76c8dc;
+    border-color: #76c8dc;
+    padding: .5rem 1rem;
+    font-size: 20px;
+}
+
+.custom-collapse-heading .list-group-item:first-child {
+    font-size: 1rem;
+}
+
+.custom-collapse-heading .btn img {
+    margin: 0;
+    width: 25px;
+    margin-left: 5px;
+}
+
+
+/* .file-input {
+    width: 92%;
+    margin-right: 10px;
+    margin-left: 18px;
+} */
+
+select.form-control {
+    padding: 0px 7px;
+}
+
+.contact-nunbers.contact-numbers--icons {
+    padding: 2px 0 0 24px;
+    background: url('../../../../assets/images/personal-call.png') no-repeat left center;
+    background-size: auto 17px;
+}
+
+.contact-nunbers.contact-numbers--icons.office-call {
+    background-image: url('../../../../assets/images/office-call.png');
+}
+
+.contact-nunbers.contact-numbers--icons.home-call {
+    background-image: url('../../../../assets/images/home-call.png');
+}

@@ -91,7 +91,7 @@ export class ContactListComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy() {
-        this.myContacts.unsubscribe();
+        //this.myContacts.unsubscribe();
     }
 
     isAuthenticated() {

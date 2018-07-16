@@ -33,6 +33,12 @@
                         <div class="col-sm-12">
                             <a href="javascript:void(0)" class="contact-nunbers" (click)="makeCall(num)">{{num}}</a>
                             <div class="right-action-button">
+                                <div ngbDropdown class="custom-dropdown new-call-dropdown new-sms-dropdown">
+                                    <button title="sms" type="button" class="btn btn-action btn-action-active">
+                                        <img src="assets/images/phone.png" alt="">
+                                    </button>
+
+                                </div>
                                 <div ngbDropdown class="custom-dropdown new-call-dropdown new-sms-dropdown" #smsDropDown="ngbDropdown">
                                     <button title="sms" type="button" [disabled]="!isSmsAllowed" class="btn btn-action" ngbDropdownToggle>
                                         <img src="assets/images/sms.png" alt="">

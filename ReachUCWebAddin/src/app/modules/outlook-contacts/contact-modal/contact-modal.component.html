@@ -1,35 +1,41 @@
 <div class="modal-header">
     <h4 class="modal-title">Hi there!</h4>
     <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
-        <span aria-hidden="true">&times;</span>
-    </button>
+    <span aria-hidden="true">&times;</span>
+</button>
 </div>
 <div class="modal-body">
-    <ul>
-        <li><strong>Phone Numbers</strong></li>
-        <li *ngFor="let number of contactPhoneNumbers">
-            <div class="row">
-                <div class="col-sm-12">
-                    {{number}}
-                    <div class="right-action-button">
-                        <div ngbDropdown class="custom-dropdown new-call-dropdown new-sms-dropdown" #smsDropDown="ngbDropdown">
-                            <button title="sms" type="button" class="btn btn-action" ngbDropdownToggle>
-                                <img src="assets/images/sms.png" alt="">
-                            </button>
-                            <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-                                <div class="sms-container">
-                                    <div class="form-group">
-                                        <textarea rows="4" class="form-control"></textarea>
+    <div class="show-list showlist-without-heading">
+        <ul class="list-group list-dialer-info">
+            <li class="list-group-item" *ngFor="let number of contactPhoneNumbers">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <a href="" class="contact-nunbers contact-numbers--icons">{{number}}</a>
+                        <div class="right-action-button">
+                            <div ngbDropdown class="custom-dropdown new-call-dropdown new-sms-dropdown2" #smsDropDown="ngbDropdown">
+                                <button title="sms" type="button" class="btn btn-action" ngbDropdownToggle>
+                                    <img src="assets/images/sms.png" alt="">
+                                </button>
+                                <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+                                    <div class="sms-container">
+                                        <div class="form-group">
+                                            <textarea rows="4" class="form-control"></textarea>
+                                        </div>
+                                        <!--<div class="error-mgs" *ngIf="!smsMessage.trim()" style="margin-bottom:12px;">Please enter valid message</div>-->
+                                        <!--<button type="button" class="btn btn-primary btn-block" (click)="sendSms(num, smsDropDown)">Send SMS</button>-->
                                     </div>
-                                    <!--<div class="error-mgs" *ngIf="!smsMessage.trim()" style="margin-bottom:12px;">Please enter valid message</div>-->
-                                    <!--<button type="button" class="btn btn-primary btn-block" (click)="sendSms(num, smsDropDown)">Send SMS</button>-->
                                 </div>
                             </div>
+                            <div ngbDropdown class="custom-dropdown new-call-dropdown ">
+                                <button title="fax" type="button" class="btn btn-action btn-action-active">
+                                    <img src="assets/images/phone.png " alt="">
+                                </button>
+                            </div>
                         </div>
+
                     </div>
-                    <button title="call"><img src="assets/images/phone.png" alt=""/></button>
                 </div>
-            </div>
-        </li>
-    </ul>
+            </li>
+        </ul>
+    </div>
 </div>

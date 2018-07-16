@@ -209,3 +209,52 @@ input[type=number]::-webkit-outer-spin-button {
     appearance: none;
     margin: 0;
 }
+
+.show-list.showlist-without-heading .list-group-item:first-child {
+    font-size: 16px !important;
+}
+
+.btn-action.btn-action-active img {
+    padding: 2px;
+    border-radius: 50%;
+    -webkit-border-radius: 50%;
+    box-shadow: 0 0 0 1px rgba(53, 155, 180, 1);
+}
+
+.btn-action.btn-action-active:focus img,
+.btn-action.btn-action-active:hover img {
+    box-shadow: 0 0 0 2px rgba(53, 155, 180, 1);
+}
+
+.ContactActionButton .btn {
+    display: inline-block;
+    background-color: transparent;
+    padding: 0px;
+    margin-left: 3px;
+}
+
+.show-list.show-list--contactlist li a {
+    font-size: 14px;
+    line-height: 14px;
+    display: block;
+    margin-bottom: 5px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    max-width: 100%;
+    color: #212529;
+}
+
+.ContactActionButton {
+    margin-top: 9px;
+}
+
+.disable-btn {
+    opacity: 0.3 !important;
+}
+
+.btn.btn-calender {
+    padding: 0 7px 4px;
+    border-radius: 0px;
+    -webkit-border-radius: 0px;
+}

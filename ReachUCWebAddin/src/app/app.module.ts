@@ -37,7 +37,8 @@ const appRoutes: Routes = [
     LoginFormComponent,
     HomePageComponent,
     DialerPadComponent,
-      MeetingManagerComponent
+      MeetingManagerComponent,
+      ContactModalComponent
   ],
   imports: [
     BrowserModule,

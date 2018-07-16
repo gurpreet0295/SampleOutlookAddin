@@ -18,8 +18,7 @@ const appRoutes: Routes = [
         NgbModule.forRoot(),
         RouterModule.forChild(appRoutes)
     ],
-    declarations: [ContactListComponent, ContactModalComponent],
-    providers: [ContactListService, OutlookAuthService],
-    entryComponents: [ContactModalComponent]
+    declarations: [ContactListComponent],
+    providers: [ContactListService, OutlookAuthService]
 })
 export class OutlookContactsModule { }
