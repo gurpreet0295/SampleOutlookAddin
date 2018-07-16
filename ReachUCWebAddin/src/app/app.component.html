@@ -1,4 +1,4 @@
+<ngb-alert *ngIf="logMessage" type={{logType}} (close)="logMessage = null">{{ logMessage }}</ngb-alert>
 <div class="response-loader" [hidden]="!showLoader"></div>
 <router-outlet></router-outlet>
-
 

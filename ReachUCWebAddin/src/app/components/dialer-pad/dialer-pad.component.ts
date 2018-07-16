@@ -1,9 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommunicationService } from '../../services/communication.service';
 import { Http } from '@angular/http';
 import { Router } from '@angular/router';
 import { HomeService } from '../../services/home.service';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
+import { Subscription } from 'rxjs';
+import { DataService } from '../../services/data-sharing.service';
+import { LoggerService } from '../../services/logger.service';
 
 declare var $: any;
 
@@ -12,7 +15,7 @@ declare var $: any;
     templateUrl: './dialer-pad.component.html',
     styleUrls: ['./dialer-pad.component.css']
 })
-export class DialerPadComponent implements OnInit {
+export class DialerPadComponent implements OnInit, OnDestroy {
 
     phoneNumber: string;
     callResponse: string;
@@ -21,48 +24,72 @@ export class DialerPadComponent implements OnInit {
     defaultCallerId: string[];
     file: any;
     smsMessage: string;
+    dialValues: string[];
+    isSmsAllowed: boolean = false;
+    isFaxAllowed: boolean = false;
+    subscription: Subscription;
+    imgSrcUrl: string;
 
-    constructor(private communicationService: CommunicationService, private homeService: HomeService, private http: Http, private router: Router, private modalService: NgbModal) {
+    constructor(private communicationService: CommunicationService, private homeService: HomeService, private http: Http, private dataService:DataService, private router: Router,private loggerService:LoggerService, private modalService: NgbModal) {
         this.phoneNumber = "";
         this.callResponse = "";
         this.smsMessage = "";
         this.defaultCallerId = new Array<string>();
         this.defaultCallerId.push("0000000000");
+        this.dialValues = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '*', '0', '#'];
     }
 
     ngOnInit() {
-        $('.num').click(function () {
-            var num = $(this);
-            var text = $.trim(num.find('.txt').clone().children().remove().end().text());
-            var telNumber = $('#telNumber');
-            $(telNumber).val(telNumber.val() + text);
-            //telNumber.trigger('change');
-        });
+        this.getPermissions();
     }
 
-    onChange(event: any) {
-        this.phoneNumber = event.target.value;
+    ngOnDestroy() {
+        this.subscription.unsubscribe();
+    }
+
+    updatePhoneNumber(value: string) {
+        if (Number.isInteger(Number.parseInt(value))) {
+            this.phoneNumber += value;
+        }
     }
 
     makeCall() {
-        var telNumber = $('#telNumber');
-        this.phoneNumber = $(telNumber).val();
+        if (!this.phoneNumber) {
+            this.loggerService.logMessage({ message: 'Please enter a valid number!', type: 'warning' });
+            return;
+        }
         this.communicationService.makeCall(this.phoneNumber);
     }
 
-    sendSms() {
-        //this.communicationService.sendSms();
+    sendSms(cb) {
+        if (this.smsMessage && this.smsMessage.trim() != "") {
+            this.communicationService.sendSms(this.phoneNumber, this.smsMessage)
+            cb();
+        }
+        this.smsMessage = "";
+        return;
     }
 
-    sendFax() {
-        //this.communicationService.sendFax();
+    sendFax(cb) {
+        if (this.file) {
+            this.communicationService.sendFax(this.phoneNumber, this.file, this.callerId);
+            cb();
+        }
     }
 
     openSmsModal(content) {
+        if (!this.phoneNumber) {
+            this.loggerService.logMessage({ message: 'Please enter a valid number!', type: 'warning' });
+            return;
+        }
         this.modalService.open(content, { centered: true, });
     }
 
     openFaxModal(content) {
+        if (!this.phoneNumber) {
+            this.loggerService.logMessage({ message: 'Please enter a valid number!', type: 'warning' });
+            return;
+        }
         this.getCallerIds();
         this.modalService.open(content, { centered: true });
     }
@@ -73,9 +100,7 @@ export class DialerPadComponent implements OnInit {
 
     handleFileInput(event: any) {
         let file = event[0];
-        if (file) {
-            this.file = file;
-        }
+        this.file = file;
     }
 
     getCallerIds() {
@@ -93,6 +118,26 @@ export class DialerPadComponent implements OnInit {
             },
             err => {
                 console.log(err);
+            })
+    }
+
+    getPermissions() {
+        this.subscription = this.dataService.userPermissions
+            .subscribe(permission => {
+                if (permission.length > 0) {
+                    permission.forEach(x => {
+                        switch (x.name) {
+                            case "allowFax": (x.value == "1" ? this.isFaxAllowed = true : this.isFaxAllowed = false);
+                                break;
+
+                            case "outboundSMS": (x.value == "1" ? this.isSmsAllowed = true : this.isSmsAllowed = false);
+                                break;
+                        }
+                    });
+                }
+            },
+            (error) => {
+                console.log(error);
             })
     }
 }

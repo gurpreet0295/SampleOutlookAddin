@@ -5,6 +5,8 @@ import { LoginService } from './services/login.service';
 import { Http } from '@angular/http';
 import { Router } from '@angular/router';
 import { Common } from './services/common.service';
+import { LoggerService } from './services/logger.service';
+import { debounceTime } from 'rxjs/operators';
 
 @Component({
   selector: 'app-root',
@@ -18,24 +20,38 @@ export class AppComponent {
   private password: string;
   private isLoggedIn: boolean;
   permissions: string[];
-  showLoader: boolean = false;
+    showLoader: boolean = false;
+    logMessage: string;
+    logType: string;
 
-  constructor(private loginService: LoginService, private apiService: SkySwitchAPIService, public commonService: Common, private http: Http, private router: Router) {
+    constructor(private loginService: LoginService, private apiService: SkySwitchAPIService, public commonService: Common, private http: Http, private router: Router, private loggerService: LoggerService) {
     this.localStorage = window.localStorage;
     this.userName = this.commonService.userName;
     this.password = this.commonService.password;
   }
 
-  ngOnInit() {
-    this.checkIsUserLoggedIn();
-    this.commonService.isGettingResponse.subscribe(
-      (response) => {
-        this.showLoader = response;
-      },
-      (error) => {
-        this.showLoader = false;
-      })
-  }
+    ngOnInit() {
+        this.checkIsUserLoggedIn();
+        this.commonService.isGettingResponse.subscribe(
+            (response) => {
+                this.showLoader = response;
+            },
+            (error) => {
+                this.showLoader = false;
+            })
+        this.loggerService.log.subscribe(
+            (data) => {
+                this.logMessage = data.message;
+                this.logType = data.type;
+            },
+            (error) => {
+                this.logMessage = "Something went wrong..";
+                this.logType = "danger";
+            })
+        this.loggerService.log.pipe(
+            debounceTime(3000)
+        ).subscribe(() => this.logMessage = null);
+    }
 
   checkIsUserLoggedIn() {
 
@@ -57,8 +73,13 @@ export class AppComponent {
                   this.commonService.storeUserDomain(domain, user, areaCode);
                   this.isLoggedIn = true;
                   this.commonService.changeLoaderStatus(false);
-                  this.loginService.getUserPermissions();
-                  this.router.navigateByUrl('home');
+                    this.loginService.getUserPermissions();
+                    console.log(this.router.url);
+                    if (this.router.url.length > 2) {
+                        this.router.navigateByUrl(this.router.url);
+                    } else {
+                        this.router.navigateByUrl('home');
+                    }
                 }
                 else {
                   console.log("No domain");

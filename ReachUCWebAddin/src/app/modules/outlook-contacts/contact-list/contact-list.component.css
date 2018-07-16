@@ -1,0 +1,40 @@
+.show-list {
+    margin-bottom: 30px;
+}
+
+    .show-list label {
+        margin-bottom: 0px;
+        padding-top: 7px;
+        display: block;
+        text-align: right;
+    }
+
+    .show-list .list-dialer-info label {
+        text-align: left;
+        padding-top: 4px;
+    }
+
+    .show-list .list-group-item.active {
+        background-color: #76c8dc;
+        border-color: #76c8dc;
+    }
+
+    .show-list .list-group-item:first-child {
+        border-radius: 0px;
+        -webkit-border-radius: 0px;
+        font-size: 20px;
+    }
+
+    .show-list p {
+        margin-bottom: 0px;
+        font-weight: bold;
+    }
+
+    .show-list .show-list--domain p {
+        font-weight: 400;
+        text-align: left;
+    }
+
+.list-group-item {
+    padding: .5rem 1rem;
+}

@@ -1,0 +1,37 @@
+<div *ngIf="!error else errorTemplate" class="login-form">
+    <div class="login-form-inner homepage">
+        <a class="back-button" routerLink="/home"><img src="assets/images/back.png" alt="" /> Back</a>
+        <div class="ms-Grid-row">
+            <br />
+
+            <div class="show-list">
+                <ul class="list-group">
+                    <li class="list-group-item active">Contacts</li>
+
+                    <li class="list-group-item" *ngFor="let contact of contacts">
+                        <div class="row">
+                            <div class="">
+                                {{contact.displayName}}
+                            </div>
+                        </div>
+                        <div>
+                            <button class="btn btn-sm" (click)="openSmsAndCallModal(contact.displayName)">
+                                <img src="assets/images/phone.png" alt="Sms">
+                            </button>
+                            <button class="btn btn-sm" (click)="addContactToPbx(contact)">
+                                <img src="assets/images/phone.png" alt="Sms">
+                            </button>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div>
+    <ng-template #errorTemplate>
+        <a class="back-button" routerLink="/home"><img src="assets/images/back.png" alt="" /> Back</a>
+        <h2>Unable to authenticate!</h2>
+    </ng-template>
+</div>

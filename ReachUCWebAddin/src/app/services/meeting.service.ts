@@ -5,6 +5,7 @@ import { SkySwitchAPIService } from "./api.service";
 import { String } from 'typescript-string-operations';
 import { DatePipe } from '@angular/common';
 import { Element } from "@angular/compiler";
+import { LoggerService } from "./logger.service";
 
 declare var jquery: any;
 declare var $: any;
@@ -29,7 +30,7 @@ export class MeetingService {
   startDate: Date;
   endDate: Date;
 
-  constructor(private outlookService: OutlookService, private commonService: Common, private apiService: SkySwitchAPIService, private dateformat: DatePipe) {
+    constructor(private outlookService: OutlookService, private commonService: Common, private apiService: SkySwitchAPIService, private dateformat: DatePipe, private loggerService: LoggerService) {
   }
 
   public sheduleMeeting() {
@@ -71,17 +72,20 @@ export class MeetingService {
                     this.showMeetingDetails = false;
                   }
                   else {
+                    this.loggerService.logMessage({ message: 'Unable to create Meeting!', type: 'danger' });
                     this.commonService.changeLoaderStatus(false);
                     this.showMeetingDetails = true;
                   }
                 }
               }
               catch (error) {
+                this.loggerService.logMessage({ message: 'Unable to create Meeting!', type: 'danger' });
                 this.commonService.changeLoaderStatus(false);
                 console.log(error);
               }
             },
             (error) => {
+              this.loggerService.logMessage({ message: 'Unable to create Meeting!', type: 'danger' });
               console.log(error);
               this.commonService.changeLoaderStatus(false);
               this.showMeetingDetails = true;
@@ -89,11 +93,13 @@ export class MeetingService {
             );
         }
         else {
+          this.loggerService.logMessage({ message: 'Unable to create Meeting!', type: 'danger' });
           this.commonService.changeLoaderStatus(false);
           console.log("Something went wrong!!");
         }
       },
       (error) => {
+        this.loggerService.logMessage({ message: 'Unable to create Meeting!', type: 'danger' });
         this.commonService.changeLoaderStatus(false);
         console.log(error);
       }

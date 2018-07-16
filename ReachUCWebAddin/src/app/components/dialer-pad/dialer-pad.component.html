@@ -11,7 +11,7 @@
                 <label>Phone:</label>
             </div>
             <div class="col-8">
-                <input name="number" type="tel" value={{phoneNumber}} class="form-control" />
+                <input name="number" type="tel" value={{phoneNumber}} class="form-control" readonly/>
             </div>
         </div>
         <div class="">
@@ -20,7 +20,7 @@
         <div class="error-mgs" *ngIf="!smsMessage.trim()">Please enter valid message</div>
     </div>
     <div class="modal-footer">
-        <button type="button" class="btn btn-primary" (click)="sendSms()">Send Sms</button>
+        <button type="button" class="btn btn-primary" (click)="sendSms(c)">Send Sms</button>
     </div>
 </ng-template>
 
@@ -42,6 +42,7 @@
                         <input name="file" class="file-input" type="file" (change)="handleFileInput($event.target.files)" />
                     </div>
                 </div>
+                <div class="error-mgs" *ngIf="!file" style="margin-left:15px;">Please select a file!</div>
             </div>
         </div>
         <div class="form-group">
@@ -50,7 +51,7 @@
                     <label>Phone:</label>
                 </div>
                 <div class="col-7">
-                    <input name="number" type="tel" value={{phoneNumber}} class="form-control" />
+                    <input name="number" type="tel" value={{phoneNumber}} class="form-control" readonly/>
                 </div>
             </div>
         </div>
@@ -68,100 +69,22 @@
         </div>
     </div>
     <div class="modal-footer">
-        <button type="button" class="btn btn-primary" (click)="sendFax()">Send Fax</button>
+        <button type="button" class="btn btn-primary" (click)="sendFax(c)">Send Fax</button>
     </div>
 </ng-template>
 
-{{phoneNumber}}
 <div class="login-form">
     <div class="login-form-inner">
-        <a class="back-button" routerLink="/home"><img src="https://localhost:442/outlook-addin/assets/back.png" alt="" /> Back</a>
+        <a class="back-button" routerLink="/home"><img src="assets/images/back.png" alt="" /> Back</a>
         <div class="phone">
             <div class="">
                 <div class="">
-                    <input type="tel" name="dialer" id="telNumber" class="form-control tel" [(value)]="phoneNumber" (change)="onChange($event)" />
+                    <input type="number" name="dialer" id="telNumber" class="form-control tel" [(ngModel)]="phoneNumber" />
                     <div class="number-pad">
-                        <div class="span4">
-                            <div class="num">
+                        <div class="span4" *ngFor="let value of dialValues">
+                            <div class="num" (click)="updatePhoneNumber(value)">
                                 <div class="txt">
-                                    1
-                                </div>
-                            </div>
-                        </div>
-                        <div class="span4">
-                            <div class="num">
-                                <div class="txt">
-                                    2
-                                </div>
-                            </div>
-                        </div>
-                        <div class="span4">
-                            <div class="num">
-                                <div class="txt">
-                                    3
-                                </div>
-                            </div>
-                        </div>
-                        <div class="span4">
-                            <div class="num">
-                                <div class="txt">
-                                    4
-                                </div>
-                            </div>
-                        </div>
-                        <div class="span4">
-                            <div class="num">
-                                <div class="txt">
-                                    5
-                                </div>
-                            </div>
-                        </div>
-                        <div class="span4">
-                            <div class="num">
-                                <div class="txt">
-                                    6
-                                </div>
-                            </div>
-                        </div>
-                        <div class="span4">
-                            <div class="num">
-                                <div class="txt">
-                                    7
-                                </div>
-                            </div>
-                        </div>
-                        <div class="span4">
-                            <div class="num">
-                                <div class="txt">
-                                    8
-                                </div>
-                            </div>
-                        </div>
-                        <div class="span4">
-                            <div class="num">
-                                <div class="txt">
-                                    9
-                                </div>
-                            </div>
-                        </div>
-                        <div class="span4">
-                            <div class="num">
-                                <div class="txt">
-                                    *
-                                </div>
-                            </div>
-                        </div>
-                        <div class="span4">
-                            <div class="num">
-                                <div class="txt">
-                                    0
-                                </div>
-                            </div>
-                        </div>
-                        <div class="span4">
-                            <div class="num">
-                                <div class="txt">
-                                    #
+                                    {{value}}
                                 </div>
                             </div>
                         </div>
@@ -169,24 +92,23 @@
                     <div class="clearfix"></div>
                     <div class="form-group">
                         <div class="callaction">
-                            <button class="round-button" (click)="openSmsModal(smsContent)">
-                                <img src="/assets/sms-icon.png" alt="sms">
+                            <button class="round-button" (click)="openSmsModal(smsContent)" [disabled]="!isSmsAllowed">
+                                <img src="assets/images/sms-icon.png" alt="Sms">
                             </button>
                         </div>
                         <div class="callaction">
                             <button class="round-button" (click)="makeCall()">
-                                <img src="/assets/phone-icon.png" alt="call">
+                                <img src="assets/images/phone-icon.png" alt="Call">
                             </button>
                         </div>
                         <div class="callaction">
-                            <button class="round-button" (click)="openFaxModal(faxContent)">
-                                    <img src="/assets/fax-icon.png" alt="fax">
+                            <button class="round-button" (click)="openFaxModal(faxContent)" [disabled]="!isFaxAllowed"> 
+                                <img src="assets/images/fax-icon.png" alt="Fax">
                             </button>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-
     </div>
 </div>

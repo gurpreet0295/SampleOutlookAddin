@@ -9,13 +9,15 @@ import { Router } from "@angular/router";
 import { HomeService } from "./home.service";
 import { DataService } from "./data-sharing.service";
 import { BehaviorSubject } from "rxjs";
+import { LoggerService } from "./logger.service";
+import { UserPermissionModel } from '../models/userpermissions.model'
 
 @Injectable()
 export class LoginService {
 
     isLoginSuccessful = new BehaviorSubject<boolean>(true);
 
-    constructor(private apiService: SkySwitchAPIService, private commonService: Common, private http: Http, private route: Router, private homeService: HomeService, private dataService: DataService) {
+    constructor(private apiService: SkySwitchAPIService, private commonService: Common, private http: Http, private route: Router, private homeService: HomeService, private dataService: DataService, private loggerService: LoggerService) {
     }
 
     loginToReachUC(username: string, password: string) {
@@ -37,7 +39,7 @@ export class LoginService {
                     this.commonService.changeLoaderStatus(false);
                     this.commonService.storeUserDomain(domain, user, areaCode);
                     this.route.navigateByUrl('home');
-                    this.dataService.changeData(new Array<string>());
+                    this.dataService.changeData(new Array<UserPermissionModel>());
                     this.getUserPermissions();
                     this.commonService.setUserProperties("1", "011", "11");
                 }
@@ -55,6 +57,7 @@ export class LoginService {
     }
 
     getUserPermissions() {
+        this.loggerService.logMessage({ message: 'Getting User Permissions..', type: 'info' });
         this.apiService.getAuthToken()
             .map(response => response.json())
             .subscribe(({ access_token, refresh_token, expires_in }) => {
@@ -75,36 +78,47 @@ export class LoginService {
                                                 let subAccountId = child && Array.isArray(child) && child[0].id;
                                                 this.apiService.getUserConfig(subAccountId)
                                                     .map(response => {
-                                                        let settingName: string[];
+                                                        let settingsObject: UserPermissionModel[];
                                                         let data = response.json();
                                                         if (Array.isArray(data)) {
-                                                            settingName = data.map(d => d.setting && d.setting.name);
+                                                            settingsObject = data.map(d => {
+                                                                var myObject = new UserPermissionModel();
+                                                                d.setting ? myObject.name = d.setting.name : myObject.name = null
+                                                                myObject.value = d.setting_value
+                                                                return myObject;
+                                                            });
                                                         }
-                                                        return settingName || [];
+                                                        return settingsObject || [];
                                                     })
                                                     .subscribe((response) => {
                                                         console.log(response);
+                                                        //this.loggerService.logMessage({ message: 'Succefully received user permissions.', type: 'success' });
                                                         this.dataService.changeData(response);
                                                     },
                                                     (error) => {
+                                                        this.loggerService.logMessage({ message: 'Unable to receive user permissions', type: 'danger' });
                                                         console.log(error);
                                                     })
                                             },
                                             (error) => {
+                                                this.loggerService.logMessage({ message: 'Unable to receive user permissions', type: 'danger' });
                                                 console.log(error)
                                             });
                                     },
                                     (error) => {
+                                        this.loggerService.logMessage({ message: 'Unable to receive user permissions', type: 'danger' });
                                         console.log(error);
                                     });
                             }
                         },
                         (error) => {
+                            this.loggerService.logMessage({ message: 'Unable to receive user permissions', type: 'danger' });
                             console.log(error);
                         });
                 }
             },
             (error) => {
+                this.loggerService.logMessage({ message: 'Unable to receive user permissions', type: 'danger' });
                 console.log(error);
             });
     }

@@ -24,12 +24,12 @@ export class OutlookService {
         "text",
         function callback(result) {
           let lines = result.value.split("\n");
-          let regExp = new RegExp(String.Format("[\\(|\\d|\\+][0-9\\(\\)\\/\\+ \\-\\.]{6,\{0\}}[0-9]", dialerLength), 'g');
+          let regExp = new RegExp(String.Format("[\\(|\\d|\\+][0-9\\(\\)\\/\\+ \\-\\.]{6,\{0\}}[0-9]", dialerLength + 10), 'g');
           lines && lines.forEach((line) => {
             let numbersFound = line.match(regExp);
             if (Array.isArray(numbersFound)) {
               numbersFound.forEach((number) => {
-                if (!(numbers.indexOf(number) > -1)) {
+                  if (!(numbers.indexOf(number) > -1)) {
                   numbers.push(number);
                 }
               });

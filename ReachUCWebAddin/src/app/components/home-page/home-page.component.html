@@ -2,28 +2,29 @@
     <div class="login-form-inner homepage">
         <div ngbDropdown class="custom-dropdown">
             <button class="btn btn-primary btn-block " id="dropdownBasic1" ngbDropdownToggle>
-        <span></span>
-        <span></span>
-        <span></span>
-      </button>
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
             <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
                 <button class="dropdown-item" (click)="openMeetingManager()" type="button">
-          <span class="ms-Button-label-new">Meeting Manager</span>
-        </button>
+                    <span class="ms-Button-label-new">Meeting Manager</span>
+                </button>
                 <button class="dropdown-item" (click)="openDialer()" type="button">
-          <span class="ms-Button-label-new">Keypad</span>
-        </button>
+                    <span class="ms-Button-label-new">Keypad</span>
+                </button>
                 <a class="dropdown-item" target="_blank" href="https://www.reachuc.com">
-          Open ReachUC
-        </a>
+                    Open ReachUC
+                </a>
                 <button class="dropdown-item" (click)="logout()" type="button">
-          <span class="ms-Button-label-new">Logout</span>
-        </button>
+                    <span class="ms-Button-label-new">Logout</span>
+                </button>
+                <button class="dropdown-item" (click)="navigateToContacts()" type="button">
+                    <span class="ms-Button-label-new">Contacts</span>
+                </button>
             </div>
         </div>
-
         <div class="clearfix"></div>
-
         <div class="show-list">
             <ul class="list-group list-dialer-info">
                 <li class="list-group-item active"> Phone Numbers</li>
@@ -32,26 +33,26 @@
                         <div class="col-sm-12">
                             <a href="javascript:void(0)" class="contact-nunbers" (click)="makeCall(num)">{{num}}</a>
                             <div class="right-action-button">
-                                <div ngbDropdown class="custom-dropdown new-call-dropdown new-sms-dropdown">
+                                <div ngbDropdown class="custom-dropdown new-call-dropdown new-sms-dropdown" #smsDropDown="ngbDropdown">
                                     <button title="sms" type="button" [disabled]="!isSmsAllowed" class="btn btn-action" ngbDropdownToggle>
-                    <img src="assets/sms.png" alt="">
-                  </button>
+                                        <img src="assets/images/sms.png" alt="">
+                                    </button>
                                     <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
                                         <div class="sms-container">
                                             <div class="form-group" (click)="stopPropogation($event)">
                                                 <textarea rows="4" class="form-control" [(ngModel)]="smsMessage"></textarea>
                                             </div>
                                             <div class="error-mgs" *ngIf="!smsMessage.trim()" style="margin-bottom:12px;">Please enter valid message</div>
-                                            <button type="button" class="btn btn-primary btn-block" (click)="sendSms(num)">Send SMS</button>
+                                            <button type="button" class="btn btn-primary btn-block" (click)="sendSms(num, smsDropDown)">Send SMS</button>
                                         </div>
                                     </div>
                                 </div>
-                                <div ngbDropdown class="custom-dropdown new-call-dropdown ">
+                                <div ngbDropdown class="custom-dropdown new-call-dropdown " #d="ngbDropdown">
                                     <button title="fax" type="button" [disabled]="!isFaxAllowed" class="btn btn-action" ngbDropdownToggle>
-                    <img src="assets/sendfax.png " alt="">
-                  </button>
+                                        <img src="assets/images/sendfax.png " alt="">
+                                    </button>
                                     <div ngbDropdownMenu aria-labelledby="dropdownBasic1 ">
-                                        <form (ngSubmit)="sendFax($event)" class="fax-container">
+                                        <form (ngSubmit)="sendFax($event, d)" class="fax-container">
                                             <div class="form-group" (click)="stopPropogation($event)">
                                                 <div class="row">
                                                     <div class="col-12">
@@ -61,8 +62,7 @@
                                                         <div class="over-hidden">
                                                             <input name="file" class="file-input" type="file" (change)="handleFileInput($event.target.files)" />
                                                         </div>
-                                                        <div class="selectfiles">
-                                                        </div>
+                                                        <div class="error-mgs" *ngIf="!file">Please select a file!</div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -72,7 +72,7 @@
                                                         <label>Phone:</label>
                                                     </div>
                                                     <div class="col-7">
-                                                        <input name="number" type="tel" [value]="num" class="form-control" />
+                                                        <input name="number" type="tel" [value]="num" class="form-control" readonly/>
                                                     </div>
                                                 </div>
                                             </div>
@@ -83,7 +83,7 @@
                                                     </div>
                                                     <div class="col-7">
                                                         <select name="caller" [(ngModel)]="callerId" class="form-control">
-                                                          <option *ngFor="let id of callerIds" value={{id}}>{{id}}</option>
+                                                            <option *ngFor="let id of callerIds" value={{id}}>{{id}}</option>
                                                         </select>
                                                     </div>
                                                 </div>
@@ -93,7 +93,7 @@
                                                     <button name="send" type="submit" class="btn btn-primary btn-block">Send</button>
                                                 </div>
                                                 <div class="col">
-                                                    <button name="close" type="button" class="btn btn-primary btn-block">Close</button>
+                                                    <button name="close" type="button" class="btn btn-primary btn-block" (click)="d.close()">Close</button>
                                                 </div>
                                             </div>
                                         </form>
@@ -105,11 +105,10 @@
                 </li>
             </ul>
         </div>
-
         <div class="show-list custom-collapse-heading">
             <button type="button" class="btn btn-primary btn-block" (click)="isPropertiesCollapsed = !isPropertiesCollapsed" [attr.aria-expanded]="!isPropertiesCollapsed" aria-controls="collapseProperties">
-        Properties <img src="assets/down-arrow.png" alt="">
-      </button>
+                Properties <img src="assets/images/down-arrow.png" alt="">
+            </button>
             <div id="collapseProperties" [ngbCollapse]="isPropertiesCollapsed">
                 <ul class="list-group list-dialer-info">
                     <li class="list-group-item">
@@ -118,7 +117,7 @@
                                 <label>Country Code</label>
                             </div>
                             <div class="col-7">
-                                <input class="form-control" name="contry code" placeholder="Contry Code" [(ngModel)]="countryCode" (change)="getNumbersFromMail()">
+                                <input class="form-control" name="Country code" placeholder="Country Code" [(ngModel)]="countryCode" (change)="getNumbersFromMail()">
                             </div>
                         </div>
                     </li>
@@ -132,13 +131,13 @@
                             </div>
                         </div>
                     </li>
-                    <li class="list-group-item">
+                    <li class="list-group-item" *ngIf="countryCode != '1'">
                         <div class="row">
                             <div class="col-5 pr-0">
                                 <label>Dial Length</label>
                             </div>
                             <div class="col-7">
-                                <input class="form-control" name="Dial Length" placeholder="11" [(ngModel)]="dialerLength" (change)="getNumbersFromMail()">
+                                <input class="form-control" name="Dial Length" placeholder="Dial Length" [(ngModel)]="dialerLength" (change)="getNumbersFromMail()">
                             </div>
                         </div>
                     </li>

@@ -19,12 +19,16 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { MeetingService } from './services/meeting.service';
 import { HomeService } from './services/home.service';
 import { DataService } from './services/data-sharing.service';
+import { LoggerService } from './services/logger.service';
+import { OutlookAuthService } from './services/outlook-auth.service';
+import { ContactModalComponent } from './modules/outlook-contacts/contact-modal/contact-modal.component';
 
 const appRoutes: Routes = [
   { path: 'login', component: LoginFormComponent },
   { path: 'home', component: HomePageComponent },
   { path: 'dialer', component: DialerPadComponent },
-  { path: 'meeting', component: MeetingManagerComponent }
+    { path: 'meeting', component: MeetingManagerComponent },
+    { path: 'contacts', loadChildren: 'app/modules/outlook-contacts/outlook-contacts.module#OutlookContactsModule' }
 ];
 
 @NgModule({
@@ -33,16 +37,17 @@ const appRoutes: Routes = [
     LoginFormComponent,
     HomePageComponent,
     DialerPadComponent,
-    MeetingManagerComponent
+      MeetingManagerComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
     HttpModule,
     NgbModule.forRoot(),
-    RouterModule.forRoot(appRoutes)
+      RouterModule.forRoot(appRoutes, {onSameUrlNavigation:'ignore'})
   ],
-  providers: [LoginService, SkySwitchAPIService, OutlookService, CommunicationService, Common, MeetingService, HomeService, DataService, { provide: LocationStrategy, useClass: HashLocationStrategy }],
+    providers: [LoginService, SkySwitchAPIService, OutlookService, CommunicationService, Common, MeetingService, HomeService, DataService, LoggerService, OutlookAuthService, { provide: LocationStrategy, useClass: HashLocationStrategy }],
+    entryComponents:[ContactModalComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
